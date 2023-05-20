@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator erd {
+  provider = "prisma-erd-generator"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id       String @id @default(uuid())
+  fullName String
+  email    String @unique
+  password String
+  phone    String @unique
+  address  String
+}
+
+model Categories {
+  id          String @id @default(uuid())
+  name        String @unique
+  description String
+
+  @@map("category")
+}
+
+model Products {
+  id          String @id @default(uuid())
+  name        String @unique
+  description String
+  price       Int
+  categoryId  String
+
+  @@map("product")
+}
+
+model Orders {
+  id          String       @id @default(uuid())
+  userId      String
+  orderDay    DateTime     @default(now())
+  orderItems  OrderItems[]
+  totalAmount Float
+
+  @@map("order")
+}
+
+model OrderItems {
+  id        String @id @default(uuid())
+  productId String
+  quantity  Int
+  unitPrice Float
+
+  orderId String
+  orders  Orders @relation(fields: [orderId], references: [id])
+
+  @@map("orderItem")
+}
