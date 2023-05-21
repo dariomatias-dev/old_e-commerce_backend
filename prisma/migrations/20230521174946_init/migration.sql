@@ -1,11 +1,17 @@
 -- CreateTable
 CREATE TABLE "Users" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "fullName" TEXT NOT NULL,
+    "firstName" TEXT NOT NULL,
+    "lastName" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "birthdate" DATETIME NOT NULL,
     "phone" TEXT NOT NULL,
-    "address" TEXT NOT NULL
+    "address" TEXT NOT NULL,
+    "city" TEXT NOT NULL,
+    "cep" TEXT NOT NULL,
+    "state" TEXT NOT NULL,
+    "country" TEXT NOT NULL
 );
 
 -- CreateTable
