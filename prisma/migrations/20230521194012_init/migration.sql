@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "Users" (
+CREATE TABLE "user" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
@@ -17,8 +17,7 @@ CREATE TABLE "Users" (
 -- CreateTable
 CREATE TABLE "category" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "name" TEXT NOT NULL,
-    "description" TEXT NOT NULL
+    "name" TEXT NOT NULL
 );
 
 -- CreateTable
@@ -49,10 +48,10 @@ CREATE TABLE "orderItem" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Users_email_key" ON "Users"("email");
+CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Users_phone_key" ON "Users"("phone");
+CREATE UNIQUE INDEX "user_phone_key" ON "user"("phone");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "category_name_key" ON "category"("name");

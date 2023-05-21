@@ -27,12 +27,13 @@ model Users {
   cep       String
   state     String
   country   String
+
+  @@map("user")
 }
 
 model Categories {
   id          String @id @default(uuid())
   name        String @unique
-  description String
 
   @@map("category")
 }

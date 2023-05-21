@@ -20,6 +20,7 @@ const userRoutes = async (server: FastifyInstance) => {
 
     server.get("/users", async () => {
         const users = await prisma.users.findMany();
+        
         return users;
     });
 

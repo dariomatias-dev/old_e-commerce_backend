@@ -2,6 +2,7 @@ import prisma from "../src/lib/prisma";
 
 async function run() {
     await prisma.users.deleteMany();
+    await prisma.categories.deleteMany();
 
     await Promise.all([
         prisma.users.create({
@@ -302,6 +303,134 @@ async function run() {
                 state: "Minas Gerais",
                 cep: "98765-432",
                 country: "Brasil",
+            },
+        }),
+    ]);
+
+    await Promise.all([
+        prisma.categories.create({
+            data: {
+                name: "Processadores",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Placas de vídeo",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Placas-mãe",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Memórias RAM",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Armazenamento ",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "SSDs",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "HDs",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Fontes de alimentação",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Gabinetes",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Periféricos",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Monitores",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Cadeiras gamers",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Mousepads",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Teclados",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Mouses",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Headsets",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Adaptadores",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Cabos",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Sistemas operacionais",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Antivírus",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Sistemas de áudio",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Placas de som",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Alto-falantes",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Fones de ouvido",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                name: "Microfones",
             },
         }),
     ]);
