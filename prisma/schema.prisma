@@ -10,7 +10,7 @@ generator erd {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -42,8 +42,8 @@ model Products {
   id          String @id @default(uuid())
   name        String @unique
   description String
-  price       Int
-  categoryId  String
+  price       String
+  categoryId  String[]
 
   @@map("product")
 }
