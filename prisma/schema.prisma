@@ -53,7 +53,7 @@ model Orders {
   userId      String
   orderDay    DateTime     @default(now())
   orderItems  OrderItems[]
-  totalAmount Float
+  totalAmount String
 
   @@map("order")
 }
@@ -62,10 +62,10 @@ model OrderItems {
   id        String @id @default(uuid())
   productId String
   quantity  Int
-  unitPrice Float
+  unitPrice String
 
   orderId String
-  orders  Orders @relation(fields: [orderId], references: [id])
+  orders  Orders @relation(fields: [orderId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@map("orderItem")
 }

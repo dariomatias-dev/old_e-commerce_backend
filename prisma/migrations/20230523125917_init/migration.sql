@@ -40,7 +40,7 @@ CREATE TABLE "order" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "orderDay" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "totalAmount" DOUBLE PRECISION NOT NULL,
+    "totalAmount" TEXT NOT NULL,
 
     CONSTRAINT "order_pkey" PRIMARY KEY ("id")
 );
@@ -50,7 +50,7 @@ CREATE TABLE "orderItem" (
     "id" TEXT NOT NULL,
     "productId" TEXT NOT NULL,
     "quantity" INTEGER NOT NULL,
-    "unitPrice" DOUBLE PRECISION NOT NULL,
+    "unitPrice" TEXT NOT NULL,
     "orderId" TEXT NOT NULL,
 
     CONSTRAINT "orderItem_pkey" PRIMARY KEY ("id")
@@ -69,4 +69,4 @@ CREATE UNIQUE INDEX "category_name_key" ON "category"("name");
 CREATE UNIQUE INDEX "product_name_key" ON "product"("name");
 
 -- AddForeignKey
-ALTER TABLE "orderItem" ADD CONSTRAINT "orderItem_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "orderItem" ADD CONSTRAINT "orderItem_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "order"("id") ON DELETE CASCADE ON UPDATE CASCADE;
