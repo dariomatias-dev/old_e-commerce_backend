@@ -27,7 +27,7 @@ const productRoutes = async (server: FastifyInstance) => {
     server.post("/product", async (request) => {
         const createProductBody = z.object({
             name: z.string().min(4).max(30),
-            description: z.string().min(20).max(500),
+            description: z.string().min(20).max(2000),
             price: z.string().min(1).max(6),
             categoryId: z.string().array().min(1).max(10),
         });
@@ -48,7 +48,7 @@ const productRoutes = async (server: FastifyInstance) => {
 
         const createProductBody = z.object({
             name: z.string().min(4).max(30).optional(),
-            description: z.string().min(20).max(500).optional(),
+            description: z.string().min(20).max(2000).optional(),
             price: z.string().min(1).max(6).optional(),
             categoryId: z.string().array().min(1).max(10).optional(),
         });

@@ -43,7 +43,7 @@ model Products {
   name        String @unique
   description String
   price       String
-  categoryId  String[]
+  categoryIds  String[]
 
   @@map("product")
 }

@@ -30,7 +30,7 @@ CREATE TABLE "product" (
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "price" TEXT NOT NULL,
-    "categoryId" TEXT[],
+    "categoryIds" TEXT[],
 
     CONSTRAINT "product_pkey" PRIMARY KEY ("id")
 );
