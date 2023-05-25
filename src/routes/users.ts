@@ -18,9 +18,28 @@ const userRoutes = async (server: FastifyInstance) => {
         return user;
     });
 
+    server.get("/user_orders/:id", async (request) => {
+        const createUserOrdersParams = z.object({
+            id: z.string().uuid(),
+        });
+
+        const { id } = createUserOrdersParams.parse(request.params);
+
+        const orders = prisma.orders.findMany({
+            where: {
+                userId: id,
+            },
+            include: {
+                orderItems: true,
+            },
+        });
+
+        return orders;
+    });
+
     server.get("/users", async () => {
         const users = await prisma.users.findMany();
-        
+
         return users;
     });
 

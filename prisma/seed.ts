@@ -339,7 +339,7 @@ async function run() {
         prisma.categories.create({
             data: {
                 id: "f5f513f6-4172-4a00-87a0-d03d8bae2fa2",
-                name: "Placas de vídeo",
+                name: "Placas de Vídeo",
             },
         }),
         prisma.categories.create({
@@ -357,7 +357,7 @@ async function run() {
         prisma.categories.create({
             data: {
                 id: "79d9cde8-93d5-4620-87b5-45cce15d80cb",
-                name: "Armazenamento ",
+                name: "Armazenamentos",
             },
         }),
         prisma.categories.create({
@@ -375,7 +375,7 @@ async function run() {
         prisma.categories.create({
             data: {
                 id: "4ab735ca-9d1f-4b5f-a9da-651e5880a9b6",
-                name: "Fontes de alimentação",
+                name: "Fontes de Alimentação",
             },
         }),
         prisma.categories.create({
@@ -399,7 +399,7 @@ async function run() {
         prisma.categories.create({
             data: {
                 id: "93d40b8d-2ddf-4f1d-9db2-7313ea3fb973",
-                name: "Cadeiras gamers",
+                name: "Cadeiras Gamers",
             },
         }),
         prisma.categories.create({
@@ -441,7 +441,7 @@ async function run() {
         prisma.categories.create({
             data: {
                 id: "df8fbf53-206e-42e7-9c9a-cae5b7f4b7a7",
-                name: "Sistemas operacionais",
+                name: "Sistemas Operacionais",
             },
         }),
         prisma.categories.create({
@@ -453,13 +453,13 @@ async function run() {
         prisma.categories.create({
             data: {
                 id: "290217c9-2691-420d-8d57-c798589555ec",
-                name: "Sistemas de áudio",
+                name: "Sistemas de Áudio",
             },
         }),
         prisma.categories.create({
             data: {
                 id: "82383954-da5a-470a-998d-a33b27c3c80d",
-                name: "Placas de som",
+                name: "Placas de Som",
             },
         }),
         prisma.categories.create({
@@ -471,13 +471,31 @@ async function run() {
         prisma.categories.create({
             data: {
                 id: "da2548a0-d727-4b0c-941a-6e93ad73c007",
-                name: "Fones de ouvido",
+                name: "Fones de Ouvido",
             },
         }),
         prisma.categories.create({
             data: {
                 id: "df20aaa1-af4b-4af4-82bd-f80c9cccc0f5",
                 name: "Microfones",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                id: "7f39ac65-a266-45d0-b773-94d99f5abf49",
+                name: "Mesas Gamers",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                id: "c5b3375a-0a1f-4e40-8ba9-3cf0044f4c7c",
+                name: "Notebooks",
+            },
+        }),
+        prisma.categories.create({
+            data: {
+                id: "68bca881-43f2-456d-979e-1892d00f54e1",
+                name: "Water Coolers",
             },
         }),
     ]);

@@ -14,6 +14,9 @@ const orderRoutes = async (server: FastifyInstance) => {
 
         const orders = await prisma.orders.findUnique({
             where: id,
+            include: {
+                orderItems: true,
+            },
         });
 
         return orders;
