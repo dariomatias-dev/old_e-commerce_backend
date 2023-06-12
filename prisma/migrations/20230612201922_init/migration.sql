@@ -20,6 +20,7 @@ CREATE TABLE "user" (
 CREATE TABLE "category" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "imageUrlId" TEXT NOT NULL,
 
     CONSTRAINT "category_pkey" PRIMARY KEY ("id")
 );
@@ -29,6 +30,7 @@ CREATE TABLE "product" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
+    "imageUrlIds" TEXT[],
     "price" TEXT NOT NULL,
     "categoryIds" TEXT[],
 
@@ -66,7 +68,13 @@ CREATE UNIQUE INDEX "user_phone_key" ON "user"("phone");
 CREATE UNIQUE INDEX "category_name_key" ON "category"("name");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "category_imageUrlId_key" ON "category"("imageUrlId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "product_name_key" ON "product"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "product_imageUrlIds_key" ON "product"("imageUrlIds");
 
 -- AddForeignKey
 ALTER TABLE "orderItem" ADD CONSTRAINT "orderItem_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "order"("id") ON DELETE CASCADE ON UPDATE CASCADE;
