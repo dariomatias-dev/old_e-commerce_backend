@@ -12,6 +12,8 @@ CREATE TABLE "user" (
     "cep" TEXT NOT NULL,
     "state" TEXT NOT NULL,
     "country" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
 );
@@ -21,6 +23,8 @@ CREATE TABLE "category" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "imageUrlId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "category_pkey" PRIMARY KEY ("id")
 );
@@ -33,6 +37,8 @@ CREATE TABLE "product" (
     "imageUrlIds" TEXT[],
     "price" TEXT NOT NULL,
     "categoryIds" TEXT[],
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "product_pkey" PRIMARY KEY ("id")
 );
@@ -43,6 +49,7 @@ CREATE TABLE "order" (
     "userId" TEXT NOT NULL,
     "orderDay" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "totalAmount" TEXT NOT NULL,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "order_pkey" PRIMARY KEY ("id")
 );

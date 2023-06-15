@@ -27,6 +27,7 @@ const categoryRoutes = async (server: FastifyInstance) => {
     server.post("/category", async (request) => {
         const createCategoryBody = z.object({
             name: z.string(),
+            imageUrlId: z.string(),
         });
 
         const data = createCategoryBody.parse(request.body);
