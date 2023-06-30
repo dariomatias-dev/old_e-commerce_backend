@@ -4,8 +4,11 @@ import * as z from "zod";
 
 import prisma from "../lib/prisma";
 
+import getQueries from './../utils/getQueries';
+import setSkipAndTake from "../utils/setSkipAndTake";
+
 const orderRoutes = async (server: FastifyInstance) => {
-    server.get('/order/:id', async (request) => {
+    server.get("/order/:id", async (request) => {
         const createOrderParams = z.object({
             id: z.string().uuid(),
         });
@@ -22,14 +25,27 @@ const orderRoutes = async (server: FastifyInstance) => {
         return orders;
     });
 
-    server.get("/orders", async () => {
+    server.get("/orders-amount", async () => {
+        const ordersAmount = await prisma.orders.count();
+
+        return ordersAmount;
+    })
+
+    server.get("/orders", async (request) => {
+        const { skip, take } = getQueries(request);
+
         const order = await prisma.orders.findMany({
+            take,
+            skip,
             include: {
                 orderItems: true,
             },
         });
 
-        return order;
+        return {
+            order,
+            ...setSkipAndTake(skip, take),
+        };
     });
 
     server.post("/order", async (request) => {

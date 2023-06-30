@@ -35,8 +35,8 @@ model Users {
 }
 
 model Categories {
-  id       String @id @default(uuid())
-  name     String @unique
+  id         String @id @default(uuid())
+  name       String @unique
   imageUrlId String @unique
 
   createdAt DateTime @default(now())
@@ -49,7 +49,7 @@ model Products {
   id          String   @id @default(uuid())
   name        String   @unique
   description String
-  imageUrlIds   String[] @unique
+  imageUrlIds String[] @unique
   price       String
   categoryIds String[]
 
@@ -77,8 +77,8 @@ model OrderItems {
   quantity  Int
   unitPrice String
 
-  orderId String
-  orders  Orders @relation(fields: [orderId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  orderId   String
+  orders    Orders @relation(fields: [orderId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@map("orderItem")
 }

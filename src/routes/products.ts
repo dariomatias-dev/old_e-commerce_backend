@@ -2,7 +2,10 @@ import { FastifyInstance } from "fastify";
 import * as z from "zod";
 
 import prisma from "../lib/prisma";
+
 import formattedProducts from "../utils/formattedProducts";
+import getQueries from "../utils/getQueries";
+import setSkipAndTake from "../utils/setSkipAndTake";
 
 const productRoutes = async (server: FastifyInstance) => {
     server.get("/product/:id", async (request) => {
@@ -19,14 +22,23 @@ const productRoutes = async (server: FastifyInstance) => {
         return product;
     });
 
+    server.get("/products-amount", async () => {
+        const productsAmount = await prisma.products.count();
+
+        return productsAmount;
+    });
+
     server.get("/product-category/:id", async (request) => {
         const createProductCategoryParams = z.object({
             id: z.string().uuid(),
         });
 
         const { id } = createProductCategoryParams.parse(request.params);
+        const { skip, take } = getQueries(request);
 
         const productCategory = await prisma.products.findMany({
+            take,
+            skip,
             where: {
                 categoryIds: {
                     equals: id,
@@ -40,11 +52,18 @@ const productRoutes = async (server: FastifyInstance) => {
             },
         });
 
-        return formattedProducts(productCategory);
+        return {
+            productCategory: formattedProducts(productCategory),
+            ...setSkipAndTake(skip, take),
+        };
     });
 
-    server.get("/products", async () => {
+    server.get("/products", async (request) => {
+        const { skip, take } = getQueries(request);
+
         const products = await prisma.products.findMany({
+            take,
+            skip,
             select: {
                 id: true,
                 name: true,
@@ -53,7 +72,10 @@ const productRoutes = async (server: FastifyInstance) => {
             },
         });
 
-        return formattedProducts(products);
+        return {
+            products: formattedProducts(products),
+            ...setSkipAndTake(skip, take),
+        };
     });
 
     server.post("/product", async (request) => {

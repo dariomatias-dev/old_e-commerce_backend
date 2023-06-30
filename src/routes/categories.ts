@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import * as z from "zod";
 
-import prisma from "../lib/prisma";;
+import prisma from "../lib/prisma";
 
 const categoryRoutes = async (server: FastifyInstance) => {
     server.get("/category/:id", async (request) => {
@@ -18,7 +18,7 @@ const categoryRoutes = async (server: FastifyInstance) => {
         return category;
     });
 
-    server.get('/categories', async () => {
+    server.get("/categories", async () => {
         const categories = await prisma.categories.findMany();
 
         return categories;

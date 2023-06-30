@@ -3,6 +3,9 @@ import * as z from "zod";
 
 import prisma from "../lib/prisma";
 
+import getQueries from "../utils/getQueries";
+import setSkipAndTake from "../utils/setSkipAndTake";
+
 const userRoutes = async (server: FastifyInstance) => {
     server.get("/user/:id", async (request) => {
         const createUserParams = z.object({
@@ -18,14 +21,23 @@ const userRoutes = async (server: FastifyInstance) => {
         return user;
     });
 
-    server.get("/user_orders/:id", async (request) => {
+    server.get("/users-amount", async () => {
+        const usersAmount = await prisma.users.count();
+
+        return usersAmount;
+    });
+
+    server.get("/user-orders/:id", async (request) => {
         const createUserOrdersParams = z.object({
             id: z.string().uuid(),
         });
 
         const { id } = createUserOrdersParams.parse(request.params);
+        const { skip, take } = getQueries(request);
 
         const orders = prisma.orders.findMany({
+            take,
+            skip,
             where: {
                 userId: id,
             },
@@ -34,13 +46,24 @@ const userRoutes = async (server: FastifyInstance) => {
             },
         });
 
-        return orders;
+        return {
+            orders,
+            ...setSkipAndTake(skip, take),
+        };
     });
 
-    server.get("/users", async () => {
-        const users = await prisma.users.findMany();
+    server.get("/users", async (request) => {
+        const { skip, take } = getQueries(request);
 
-        return users;
+        const users = await prisma.users.findMany({
+            take,
+            skip,
+        });
+
+        return {
+            users,
+            ...setSkipAndTake(skip, take),
+        };
     });
 
     server.post("/user", async (request) => {

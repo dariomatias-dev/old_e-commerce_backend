@@ -3,7 +3,7 @@ type ProductsProps = {
     name: string;
     price: string;
     imageUrlIds: string[];
-}
+};
 
 const formattedProducts = (products: ProductsProps[]) => {
     const productsInfo = products.map(product => {
