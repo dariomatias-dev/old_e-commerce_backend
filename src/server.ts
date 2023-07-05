@@ -4,6 +4,7 @@ import cors from '@fastify/cors';
 import userRoutes from "./routes/users";
 import categoryRoutes from './routes/categories';
 import productRoutes from './routes/products';
+import favoritesRoutes from "./routes/favorites";
 import orderRoutes from './routes/orders';
 
 const server = fastify({ logger: true });
@@ -12,6 +13,7 @@ server.register(cors);
 server.register(userRoutes);
 server.register(categoryRoutes);
 server.register(productRoutes);
+server.register(favoritesRoutes);
 server.register(orderRoutes);
 
 server

@@ -44,6 +44,14 @@ CREATE TABLE "product" (
 );
 
 -- CreateTable
+CREATE TABLE "Favorites" (
+    "userId" TEXT NOT NULL,
+    "productIds" TEXT[],
+
+    CONSTRAINT "Favorites_pkey" PRIMARY KEY ("userId")
+);
+
+-- CreateTable
 CREATE TABLE "order" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,

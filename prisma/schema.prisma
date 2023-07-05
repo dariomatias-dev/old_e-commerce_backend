@@ -58,6 +58,10 @@ model Products {
 
   @@map("product")
 }
+model Favorites {
+  userId     String @id @default(uuid())
+  productIds String[]
+}
 
 model Orders {
   id          String       @id @default(uuid())
