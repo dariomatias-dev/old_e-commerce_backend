@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import * as zod from "zod";
+import * as z from "zod";
 
 import prisma from '../lib/prisma';
 import formattedProducts from '../utils/formattedProducts';
@@ -16,8 +16,8 @@ type ProductProps = {
 
 const favoritesRoutes = async (server: FastifyInstance) => {
     server.get("/favorite/:userId", async (request) => {
-        const createFavoriteParams = zod.object({
-            userId: zod.string().uuid(),
+        const createFavoriteParams = z.object({
+            userId: z.string().uuid(),
         });
 
         const userId = createFavoriteParams.parse(request.params);
@@ -32,8 +32,8 @@ const favoritesRoutes = async (server: FastifyInstance) => {
     server.get("/favorite-products", async (request) => {
         const { skip, take } = getQueries(request);
 
-        const createFavoriteProductsParams = zod.object({
-            productIds: zod.string().uuid().array(),
+        const createFavoriteProductsParams = z.object({
+            productIds: z.string().uuid().array(),
         });
 
         const { productIds } = createFavoriteProductsParams.parse(request.query);
@@ -63,9 +63,9 @@ const favoritesRoutes = async (server: FastifyInstance) => {
     });
 
     server.post("/favorite", async (request) => {
-        const createFavoritesBody = zod.object({
-            userId: zod.string().uuid(),
-            productIds: zod.string().uuid().array(),
+        const createFavoritesBody = z.object({
+            userId: z.string().uuid(),
+            productIds: z.string().uuid().array(),
         });
 
         const data = createFavoritesBody.parse(request.body);
@@ -79,12 +79,12 @@ const favoritesRoutes = async (server: FastifyInstance) => {
     });
 
     server.patch("/favorite/:userId", async (request) => {
-        const createFavoriteParams = zod.object({
-            userId: zod.string().uuid(),
+        const createFavoriteParams = z.object({
+            userId: z.string().uuid(),
         });
 
-        const createfavoriteBody = zod.object({
-            productIds: zod.string().uuid().array(),
+        const createfavoriteBody = z.object({
+            productIds: z.string().uuid().array(),
         });
 
         const userId = createFavoriteParams.parse(request.params);
@@ -99,8 +99,8 @@ const favoritesRoutes = async (server: FastifyInstance) => {
     });
 
     server.delete("/favorite/:userId", async (request) => {
-        const createFavoriteParams = zod.object({
-            userId: zod.string().uuid(),
+        const createFavoriteParams = z.object({
+            userId: z.string().uuid(),
         });
 
         const userId = createFavoriteParams.parse(request.params);
