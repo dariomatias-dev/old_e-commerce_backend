@@ -22,7 +22,7 @@ const productRoutes = async (server: FastifyInstance) => {
     return product;
   });
 
-  server.get("/products-amount", async () => {
+  server.get("/products/amount", async () => {
     const productsAmount = await prisma.products.count();
 
     return productsAmount;
@@ -58,9 +58,7 @@ const productRoutes = async (server: FastifyInstance) => {
     };
   });
 
-  server.get("/products-by-category-ids", async (request) => {
-    const { skip, take } = getQueries(request);
-
+  server.get("/products-by-category-ids/amount", async (request) => {
     const createProductsByCategoryIdsParams = z.object({
       categoryIds: z.string(),
     });
@@ -69,13 +67,48 @@ const productRoutes = async (server: FastifyInstance) => {
       request.query
     );
 
-    const products = await prisma.products.findMany({
-      take,
-      skip,
+    const amount = await prisma.products.count({
       where: {
         categoryIds: {
           hasSome: categoryIds.split(","),
         },
+      },
+    });
+
+    return amount;
+  });
+
+  server.get("/products-by-category-ids", async (request) => {
+    const { skip, take } = getQueries(request);
+
+    const createProductsByCategoryIdsParams = z.object({
+      productId: z.string().uuid(),
+      categoryIds: z.string(),
+    });
+
+    
+    const { productId, categoryIds } = createProductsByCategoryIdsParams.parse(
+      request.query
+      );
+
+    console.log(productId, categoryIds);
+
+    const products = await prisma.products.findMany({
+      take,
+      skip,
+      where: {
+        AND: [
+          {
+            categoryIds: {
+              hasSome: categoryIds,
+            },
+          },
+          {
+            NOT: {
+              id: productId,
+            },
+          },
+        ],
       },
     });
 
