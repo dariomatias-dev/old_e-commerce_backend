@@ -44,11 +44,19 @@ CREATE TABLE "product" (
 );
 
 -- CreateTable
-CREATE TABLE "Favorites" (
+CREATE TABLE "favorite" (
     "userId" TEXT NOT NULL,
     "productIds" TEXT[],
 
-    CONSTRAINT "Favorites_pkey" PRIMARY KEY ("userId")
+    CONSTRAINT "favorite_pkey" PRIMARY KEY ("userId")
+);
+
+-- CreateTable
+CREATE TABLE "cart" (
+    "userId" TEXT NOT NULL,
+    "productIds" TEXT[],
+
+    CONSTRAINT "cart_pkey" PRIMARY KEY ("userId")
 );
 
 -- CreateTable

@@ -58,9 +58,19 @@ model Products {
 
   @@map("product")
 }
+
 model Favorites {
   userId     String @id @default(uuid())
   productIds String[]
+
+  @@map("favorite")
+}
+
+model Carts {
+  userId     String @id @default(uuid())
+  productIds String[]
+
+  @@map("cart")
 }
 
 model Orders {
