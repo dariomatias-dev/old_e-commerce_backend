@@ -4,7 +4,7 @@ import * as z from "zod";
 import prisma from "../lib/prisma";
 
 const categoryRoutes = async (server: FastifyInstance) => {
-    // Search user based on id
+    // Search user based on ID
     server.get("/category/:id", async (request, reply) => {
         const createCategoryParams = z.object({
             id: z.string().uuid(),

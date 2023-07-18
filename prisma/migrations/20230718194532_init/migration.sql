@@ -12,6 +12,8 @@ CREATE TABLE "user" (
     "cep" TEXT NOT NULL,
     "state" TEXT NOT NULL,
     "country" TEXT NOT NULL,
+    "isAdmin" BOOLEAN NOT NULL,
+    "adminPassword" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

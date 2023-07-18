@@ -15,18 +15,20 @@ datasource db {
 }
 
 model Users {
-  id        String   @id @default(uuid())
-  firstName String
-  lastName  String
-  email     String   @unique
-  password  String
-  birthdate DateTime
-  phone     String   @unique
-  address   String
-  city      String
-  cep       String
-  state     String
-  country   String
+  id            String   @id @default(uuid())
+  firstName     String
+  lastName      String
+  email         String   @unique
+  password      String
+  birthdate     DateTime
+  phone         String   @unique
+  address       String
+  city          String
+  cep           String
+  state         String
+  country       String
+  isAdmin       Boolean
+  adminPassword String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -60,14 +62,14 @@ model Products {
 }
 
 model Wishlists {
-  userId     String @id @default(uuid())
+  userId     String   @id @default(uuid())
   productIds String[]
 
   @@map("wishlist")
 }
 
 model Carts {
-  userId     String @id @default(uuid())
+  userId     String   @id @default(uuid())
   productIds String[]
 
   @@map("cart")
@@ -91,8 +93,8 @@ model OrderItems {
   quantity  Int
   unitPrice String
 
-  orderId   String
-  orders    Orders @relation(fields: [orderId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  orderId String
+  orders  Orders @relation(fields: [orderId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@map("orderItem")
 }

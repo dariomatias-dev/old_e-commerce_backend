@@ -6,19 +6,25 @@ import * as z from "zod";
 import prisma from "../lib/prisma";
 
 const authRoutes = async (server: FastifyInstance) => {
-    server.post("/auth/login", async (request, reply) => {
+    // Login
+    server.post("/auth/login/:userId", async (request, reply) => {
+        const createLoginParams = z.object({
+            userId: z.string().uuid(),
+        });
+
         const createLoginBody = z.object({
             email: z.string().email(),
             password: z.string().min(6),
         });
 
+        const { userId } = createLoginParams.parse(request.params);
         const { email, password } = createLoginBody.parse(request.body);
 
-        const payload = { email, password };
+        const payload = { userId, email };
         const secretKey = process.env.SECRET_KEY;
 
         if (!secretKey) {
-            throw new Error("Chave secreta não definida.");
+            throw new Error("Secret key not set.");
         }
 
         try {
@@ -26,14 +32,16 @@ const authRoutes = async (server: FastifyInstance) => {
 
             const user = await prisma.users.findUnique({
                 where: {
-                    email: email,
+                    id: userId,
                 },
             });
 
             if (!user) {
-                return reply
-                    .status(401)
-                    .send({ error: "Usuário não encontrado." });
+                return reply.status(401).send({ error: "User not found." });
+            }
+
+            if (email !== user?.email) {
+                return reply.status(401).send({ error: "Invalid email." });
             }
 
             const isValidPassword = await bcrypt.compare(
@@ -42,7 +50,7 @@ const authRoutes = async (server: FastifyInstance) => {
             );
 
             if (!isValidPassword) {
-                return reply.status(401).send({ error: "Senha inválida." });
+                return reply.status(401).send({ error: "Invalid password." });
             }
 
             reply.send({ token });
@@ -51,6 +59,7 @@ const authRoutes = async (server: FastifyInstance) => {
         }
     });
 
+    // Logout
     server.post("/auth/logout", async (request) => {});
 };
 

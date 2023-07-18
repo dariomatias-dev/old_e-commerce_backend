@@ -7,11 +7,13 @@ import prisma from "../lib/prisma";
 
 import authMiddleware from "../middlewares/authMiddleware";
 
+import userSchema from "../schemas/user_schema";
+
 import getQueries from "../utils/getQueries";
 import setSkipAndTake from "../utils/setSkipAndTake";
 
 const userRoutes = async (server: FastifyInstance) => {
-    // Search user based on id
+    // Search user based on ID
     server.post(
         "/user/:id",
         { preHandler: authMiddleware },
@@ -45,6 +47,7 @@ const userRoutes = async (server: FastifyInstance) => {
         }
     });
 
+    // Search user based on ID along with all their orders
     server.get("/user-orders/:id", async (request, reply) => {
         const createUserOrdersParams = z.object({
             id: z.string().uuid(),
@@ -95,27 +98,11 @@ const userRoutes = async (server: FastifyInstance) => {
 
     // Create user
     server.post("/user", async (request, reply) => {
-        const createUsersBody = z.object({
-            firstName: z.string().min(3).max(30),
-            lastName: z.string().min(3).max(30),
-            email: z.string().email(),
-            password: z.string().min(6),
-            birthdate: z.string().refine((value) => {
-                const date = new Date(value);
-                return !isNaN(date.getTime());
-            }, "Invalid date format."),
-            phone: z.string().min(17).max(17),
-            address: z.string().min(6).max(50),
-            city: z.string().min(3).max(30),
-            state: z.string().min(3).max(30),
-            cep: z.string().min(9).max(9),
-            country: z.string().min(3).max(30),
-        });
+        const createUsersBody = userSchema;
 
         const data = createUsersBody.parse(request.body);
         const password = await bcrypt.hash(data.password, 10);
 
-        const payload = { email: data.email, password: data.password };
         const secretKey = process.env.SECRET_KEY;
 
         if (!secretKey) {
@@ -123,12 +110,56 @@ const userRoutes = async (server: FastifyInstance) => {
         }
 
         try {
-            await prisma.users.create({
+            const user = await prisma.users.create({
                 data: {
                     ...data,
                     password,
                 },
             });
+
+            const payload = {
+                userId: user.id,
+                email: data.email,
+            };
+
+            const token = jwt.sign(payload, secretKey);
+
+            return { token };
+        } catch (err) {
+            return reply.status(500).send(err);
+        }
+    });
+
+    // Create user with admin access
+    server.post("/admin-user", async (request, reply) => {
+        const createUsersBody = userSchema.extend({
+            adminPassword: z.string().min(6),
+        });
+
+        const data = createUsersBody.parse(request.body);
+        const password = await bcrypt.hash(data.password, 10);
+        const adminPassword = await bcrypt.hash(data.adminPassword, 10);
+
+        const secretKey = process.env.SECRET_KEY;
+
+        if (!secretKey) {
+            throw new Error("Chave secreta não definida.");
+        }
+
+        try {
+            const user = await prisma.users.create({
+                data: {
+                    ...data,
+                    password,
+                    adminPassword,
+                },
+            });
+
+            const payload = {
+                userId: user.id,
+                email: data.email,
+                isAdmin: data.isAdmin,
+            };
 
             const token = jwt.sign(payload, secretKey);
 
@@ -147,19 +178,7 @@ const userRoutes = async (server: FastifyInstance) => {
                 id: z.string().uuid(),
             });
 
-            const createUsersBody = z.object({
-                firstName: z.string().min(10).max(30).optional(),
-                lastName: z.string().min(10).max(30).optional(),
-                email: z.string().email().optional(),
-                password: z.string().min(6).max(20).optional(),
-                birthdate: z.date().optional(),
-                phone: z.string().min(17).max(17).optional(),
-                address: z.string().min(10).max(50).optional(),
-                city: z.string().min(10).max(30).optional(),
-                state: z.string().min(10).max(30).optional(),
-                cep: z.string().min(9).max(9).optional(),
-                country: z.string().min(10).max(30).optional(),
-            });
+            let createUsersBody = userSchema.partial();
 
             const id = createUserParams.parse(request.params);
             const data = createUsersBody.parse(request.body);
