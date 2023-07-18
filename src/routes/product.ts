@@ -1,4 +1,5 @@
 import { FastifyInstance } from "fastify";
+import { Products } from "@prisma/client";
 import * as z from "zod";
 
 import prisma from "../lib/prisma";
@@ -8,6 +9,7 @@ import getQueries from "../utils/getQueries";
 import setSkipAndTake from "../utils/setSkipAndTake";
 
 const productRoutes = async (server: FastifyInstance) => {
+  // Search for the product that has the ID sent
   server.get("/product/:id", async (request) => {
     const createProductParams = z.object({
       id: z.string().uuid(),
@@ -22,12 +24,14 @@ const productRoutes = async (server: FastifyInstance) => {
     return product;
   });
 
+  // Counts the total number of products
   server.get("/products/amount", async () => {
     const productsAmount = await prisma.products.count();
 
     return productsAmount;
   });
 
+  // Searches for all products that have a given category ID
   server.get("/product-category/:id", async (request) => {
     const createProductCategoryParams = z.object({
       id: z.string().uuid(),
@@ -44,12 +48,6 @@ const productRoutes = async (server: FastifyInstance) => {
           equals: id,
         },
       },
-      select: {
-        id: true,
-        name: true,
-        imageUrlIds: true,
-        price: true,
-      },
     });
 
     return {
@@ -58,26 +56,66 @@ const productRoutes = async (server: FastifyInstance) => {
     };
   });
 
+  // Search for products that have any of the submitted IDs
+  server.get("/products-by-ids", async (request) => {
+    const { skip, take } = getQueries(request);
+
+    const createProductsByIdsQuery = z.object({
+      productIds: z.string(),
+    });
+
+    const { productIds } = createProductsByIdsQuery.parse(request.query);
+    const selectedProductIds = productIds.split(",").slice(skip, skip + take);
+
+    const products: Products[] = [];
+
+    for (let productId of selectedProductIds) {
+      const product = await prisma.products.findUnique({
+        where: {
+          id: productId,
+        },
+      });
+
+      products.push(product as Products);
+    }
+
+    return {
+      products: formattedProducts(products),
+      ...setSkipAndTake(skip, take),
+    };
+  });
+
+  // Counts the number of products that have any of the submitted IDs in their category
   server.get("/products-by-category-ids/amount", async (request) => {
-    const createProductsByCategoryIdsParams = z.object({
+    const createProductsByCategoryIdsAmountParams = z.object({
+      productId: z.string().uuid(),
       categoryIds: z.string(),
     });
 
-    const { categoryIds } = createProductsByCategoryIdsParams.parse(
-      request.query
-    );
+    const { productId, categoryIds } =
+      createProductsByCategoryIdsAmountParams.parse(request.query);
 
     const amount = await prisma.products.count({
       where: {
-        categoryIds: {
-          hasSome: categoryIds.split(","),
-        },
+        AND: [
+          {
+            categoryIds: {
+              hasSome: categoryIds,
+            },
+          },
+          {
+            NOT: {
+              id: productId,
+            },
+          },
+        ],
       },
     });
 
     return amount;
   });
 
+  // Search for products that have any of the submitted IDs in their category
   server.get("/products-by-category-ids", async (request) => {
     const { skip, take } = getQueries(request);
 
@@ -86,12 +124,9 @@ const productRoutes = async (server: FastifyInstance) => {
       categoryIds: z.string(),
     });
 
-    
     const { productId, categoryIds } = createProductsByCategoryIdsParams.parse(
       request.query
-      );
-
-    console.log(productId, categoryIds);
+    );
 
     const products = await prisma.products.findMany({
       take,
@@ -118,18 +153,13 @@ const productRoutes = async (server: FastifyInstance) => {
     };
   });
 
+  // Search products
   server.get("/products", async (request) => {
     const { skip, take } = getQueries(request);
 
     const products = await prisma.products.findMany({
       take,
       skip,
-      select: {
-        id: true,
-        name: true,
-        price: true,
-        imageUrlIds: true,
-      },
     });
 
     return {
@@ -138,6 +168,7 @@ const productRoutes = async (server: FastifyInstance) => {
     };
   });
 
+  // Create product
   server.post("/product", async (request) => {
     const createProductBody = z.object({
       name: z.string().min(4).max(30),
@@ -156,6 +187,7 @@ const productRoutes = async (server: FastifyInstance) => {
     return "success";
   });
 
+  // Update product
   server.patch("/product/:id", async (request) => {
     const createProductParams = z.object({
       id: z.string().uuid(),
@@ -180,6 +212,7 @@ const productRoutes = async (server: FastifyInstance) => {
     return "success";
   });
 
+  // Delete product
   server.delete("/product/:id", async (request) => {
     const createProductParams = z.object({
       id: z.string().uuid(),

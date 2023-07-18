@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify";
 import prisma from "../lib/prisma";
 import * as z from "zod";
 
-const CartsRoutes = async (server: FastifyInstance) => {
+const cartRoutes = async (server: FastifyInstance) => {
     // Get All Cart Product Ids
     server.get("/cart/:userId", async (request) => {
         const createCartParams = z.object({
@@ -15,7 +15,7 @@ const CartsRoutes = async (server: FastifyInstance) => {
             where: userId,
         });
 
-        return result?.productIds;
+        return result?.productIds ?? null;
     });
 
     // Update Cart
@@ -57,4 +57,4 @@ const CartsRoutes = async (server: FastifyInstance) => {
     });
 };
 
-export default CartsRoutes;
+export default cartRoutes;

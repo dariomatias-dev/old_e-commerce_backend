@@ -1,25 +1,25 @@
 import fastify from "fastify";
-import cors from '@fastify/cors';
+import cors from "@fastify/cors";
 
-import CartsRoutes from "./routes/carts";
-import categoryRoutes from './routes/categories';
-import favoritesRoutes from "./routes/favorites";
-import orderRoutes from './routes/orders';
-import productRoutes from './routes/products';
-import userRoutes from "./routes/users";
+import authRoutes from "./routes/auth";
+import cartRoutes from "./routes/cart";
+import categoryRoutes from "./routes/category";
+import orderRoutes from "./routes/order";
+import productRoutes from "./routes/product";
+import userRoutes from "./routes/user";
+import wishlistRoutes from "./routes/wishlist";
 
 const server = fastify({ logger: true });
 
 server.register(cors);
-server.register(CartsRoutes);
-server.register(userRoutes);
+server.register(authRoutes);
+server.register(cartRoutes);
 server.register(categoryRoutes);
-server.register(productRoutes);
-server.register(favoritesRoutes);
 server.register(orderRoutes);
+server.register(productRoutes);
+server.register(userRoutes);
+server.register(wishlistRoutes);
 
-server
-    .listen({ port: 3333 })
-    .then(() => {
-        console.log("Server running in PORT 3333!");
-    });
+server.listen({ port: 3333 }).then(() => {
+    console.log("Server running in PORT 3333!");
+});

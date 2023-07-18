@@ -2,7 +2,10 @@
   "dependencies": {
     "@fastify/cors": "^8.2.1",
     "@prisma/client": "^4.14.1",
+    "bcrypt": "^5.1.0",
     "fastify": "^4.17.0",
+    "jsonwebtoken": "^9.0.1",
+    "passport": "^0.6.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {

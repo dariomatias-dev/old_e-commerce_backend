@@ -4,7 +4,7 @@ import * as z from "zod";
 
 import prisma from "../lib/prisma";
 
-import getQueries from './../utils/getQueries';
+import getQueries from '../utils/getQueries';
 import setSkipAndTake from "../utils/setSkipAndTake";
 
 const orderRoutes = async (server: FastifyInstance) => {

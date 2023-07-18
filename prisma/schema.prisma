@@ -59,11 +59,11 @@ model Products {
   @@map("product")
 }
 
-model Favorites {
+model Wishlists {
   userId     String @id @default(uuid())
   productIds String[]
 
-  @@map("favorite")
+  @@map("wishlist")
 }
 
 model Carts {
