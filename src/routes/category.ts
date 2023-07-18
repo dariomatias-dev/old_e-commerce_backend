@@ -4,27 +4,38 @@ import * as z from "zod";
 import prisma from "../lib/prisma";
 
 const categoryRoutes = async (server: FastifyInstance) => {
-    server.get("/category/:id", async (request) => {
+    // Search user based on id
+    server.get("/category/:id", async (request, reply) => {
         const createCategoryParams = z.object({
             id: z.string().uuid(),
         });
 
         const id = createCategoryParams.parse(request.params);
 
-        const category = await prisma.categories.findUnique({
-            where: id,
-        });
+        try {
+            const category = await prisma.categories.findUnique({
+                where: id,
+            });
 
-        return category;
+            return category;
+        } catch (err) {
+            return reply.status(500).send(err);
+        }
     });
 
-    server.get("/categories", async () => {
-        const categories = await prisma.categories.findMany();
+    // Search all categories
+    server.get("/categories", async (_, reply) => {
+        try {
+            const categories = await prisma.categories.findMany();
 
-        return categories;
+            return categories;
+        } catch (err) {
+            return reply.status(500).send(err);
+        }
     });
 
-    server.post("/category", async (request) => {
+    // Create category
+    server.post("/category", async (request, reply) => {
         const createCategoryBody = z.object({
             name: z.string(),
             imageUrlId: z.string(),
@@ -32,14 +43,19 @@ const categoryRoutes = async (server: FastifyInstance) => {
 
         const data = createCategoryBody.parse(request.body);
 
-        await prisma.categories.create({
-            data,
-        });
+        try {
+            await prisma.categories.create({
+                data,
+            });
 
-        return "success";
+            return "success";
+        } catch (err) {
+            return reply.status(500).send(err);
+        }
     });
 
-    server.patch("/category/:id", async (request) => {
+    // Update category
+    server.patch("/category/:id", async (request, reply) => {
         const createCategoryParams = z.object({
             id: z.string().uuid(),
         });
@@ -51,26 +67,35 @@ const categoryRoutes = async (server: FastifyInstance) => {
         const id = createCategoryParams.parse(request.params);
         const data = createCategoryBody.parse(request.body);
 
-        await prisma.categories.update({
-            where: id,
-            data,
-        });
+        try {
+            await prisma.categories.update({
+                where: id,
+                data,
+            });
 
-        return "success";
+            return "success";
+        } catch (err) {
+            return reply.status(500).send(err);
+        }
     });
 
-    server.delete("/category/:id", async (request) => {
+    // Delete category
+    server.delete("/category/:id", async (request, reply) => {
         const createCategoryParams = z.object({
             id: z.string().uuid(),
         });
 
         const id = createCategoryParams.parse(request.params);
 
-        await prisma.categories.delete({
-            where: id,
-        });
+        try {
+            await prisma.categories.delete({
+                where: id,
+            });
 
-        return "success";
+            return "success";
+        } catch (err) {
+            return reply.status(500).send(err);
+        }
     });
 };
 

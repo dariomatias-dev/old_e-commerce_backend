@@ -14,22 +14,6 @@ const authRoutes = async (server: FastifyInstance) => {
 
         const { email, password } = createLoginBody.parse(request.body);
 
-        const user = await prisma.users.findUnique({
-            where: {
-                email: email,
-            },
-        });
-
-        if (!user) {
-            return reply.status(401).send({ error: "Usuário não encontrado." });
-        }
-
-        const isValidPassword = await bcrypt.compare(password, user.password);
-
-        if (!isValidPassword) {
-            return reply.status(401).send({ error: "Senha inválida." });
-        }
-
         const payload = { email, password };
         const secretKey = process.env.SECRET_KEY;
 
@@ -37,9 +21,34 @@ const authRoutes = async (server: FastifyInstance) => {
             throw new Error("Chave secreta não definida.");
         }
 
-        const token = jwt.sign(payload, secretKey);
+        try {
+            const token = jwt.sign(payload, secretKey);
 
-        reply.send({ token });
+            const user = await prisma.users.findUnique({
+                where: {
+                    email: email,
+                },
+            });
+
+            if (!user) {
+                return reply
+                    .status(401)
+                    .send({ error: "Usuário não encontrado." });
+            }
+
+            const isValidPassword = await bcrypt.compare(
+                password,
+                user.password
+            );
+
+            if (!isValidPassword) {
+                return reply.status(401).send({ error: "Senha inválida." });
+            }
+
+            reply.send({ token });
+        } catch (err) {
+            reply.status(401).send(err);
+        }
     });
 
     server.post("/auth/logout", async (request) => {});

@@ -3,7 +3,7 @@ import prisma from "../lib/prisma";
 import * as z from "zod";
 
 const cartRoutes = async (server: FastifyInstance) => {
-    // Get All Cart Product Ids
+    // Search all cart product IDs
     server.get("/cart/:userId", async (request) => {
         const createCartParams = z.object({
             userId: z.string().uuid(),
@@ -18,7 +18,7 @@ const cartRoutes = async (server: FastifyInstance) => {
         return result?.productIds ?? null;
     });
 
-    // Update Cart
+    // Update cart
     server.put("/cart/:userId", async (request) => {
         const createCartParams = z.object({
             userId: z.string().uuid(),
@@ -41,7 +41,7 @@ const cartRoutes = async (server: FastifyInstance) => {
         return "success";
     });
 
-    // Delete User Cart
+    // Delete user cart
     server.delete("/cart/:userId", async (request) => {
         const createCartParams = z.object({
             userId: z.string().uuid(),

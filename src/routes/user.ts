@@ -11,31 +11,41 @@ import getQueries from "../utils/getQueries";
 import setSkipAndTake from "../utils/setSkipAndTake";
 
 const userRoutes = async (server: FastifyInstance) => {
+    // Search user based on id
     server.post(
         "/user/:id",
         { preHandler: authMiddleware },
-        async (request) => {
+        async (request, reply) => {
             const createUserParams = z.object({
                 id: z.string().uuid(),
             });
 
             const id = createUserParams.parse(request.params);
 
-            const user = await prisma.users.findUnique({
-                where: id,
-            });
+            try {
+                const user = await prisma.users.findUnique({
+                    where: id,
+                });
 
-            return user;
+                return user;
+            } catch (err) {
+                return reply.status(500).send(err);
+            }
         }
     );
 
-    server.get("/users-amount", async () => {
-        const usersAmount = await prisma.users.count();
+    // Count the total amount of users
+    server.get("/users-amount", async (_, reply) => {
+        try {
+            const usersAmount = await prisma.users.count();
 
-        return usersAmount;
+            return usersAmount;
+        } catch (err) {
+            return reply.status(500).send(err);
+        }
     });
 
-    server.get("/user-orders/:id", async (request) => {
+    server.get("/user-orders/:id", async (request, reply) => {
         const createUserOrdersParams = z.object({
             id: z.string().uuid(),
         });
@@ -43,38 +53,48 @@ const userRoutes = async (server: FastifyInstance) => {
         const { id } = createUserOrdersParams.parse(request.params);
         const { skip, take } = getQueries(request);
 
-        const orders = prisma.orders.findMany({
-            take,
-            skip,
-            where: {
-                userId: id,
-            },
-            include: {
-                orderItems: true,
-            },
-        });
+        try {
+            const orders = prisma.orders.findMany({
+                take,
+                skip,
+                where: {
+                    userId: id,
+                },
+                include: {
+                    orderItems: true,
+                },
+            });
 
-        return {
-            orders,
-            ...setSkipAndTake(skip, take),
-        };
+            return {
+                orders,
+                ...setSkipAndTake(skip, take),
+            };
+        } catch (err) {
+            reply.status(500).send(err);
+        }
     });
 
-    server.get("/users", async (request) => {
+    // Search all users
+    server.get("/users", async (request, reply) => {
         const { skip, take } = getQueries(request);
 
-        const users = await prisma.users.findMany({
-            take,
-            skip,
-        });
+        try {
+            const users = await prisma.users.findMany({
+                take,
+                skip,
+            });
 
-        return {
-            users,
-            ...setSkipAndTake(skip, take),
-        };
+            return {
+                users,
+                ...setSkipAndTake(skip, take),
+            };
+        } catch (err) {
+            reply.status(500).send(err);
+        }
     });
 
-    server.post("/user", async (request) => {
+    // Create user
+    server.post("/user", async (request, reply) => {
         const createUsersBody = z.object({
             firstName: z.string().min(3).max(30),
             lastName: z.string().min(3).max(30),
@@ -95,13 +115,6 @@ const userRoutes = async (server: FastifyInstance) => {
         const data = createUsersBody.parse(request.body);
         const password = await bcrypt.hash(data.password, 10);
 
-        await prisma.users.create({
-            data: {
-                ...data,
-                password,
-            },
-        });
-
         const payload = { email: data.email, password: data.password };
         const secretKey = process.env.SECRET_KEY;
 
@@ -109,54 +122,83 @@ const userRoutes = async (server: FastifyInstance) => {
             throw new Error("Chave secreta não definida.");
         }
 
-        const token = jwt.sign(payload, secretKey);
+        try {
+            await prisma.users.create({
+                data: {
+                    ...data,
+                    password,
+                },
+            });
 
-        return { token };
+            const token = jwt.sign(payload, secretKey);
+
+            return { token };
+        } catch (err) {
+            return reply.status(500).send(err);
+        }
     });
 
-    server.patch("/user/:id", async (request) => {
-        const createUserParams = z.object({
-            id: z.string().uuid(),
-        });
+    // Update user
+    server.patch(
+        "/user/:id",
+        { preHandler: authMiddleware },
+        async (request, reply) => {
+            const createUserParams = z.object({
+                id: z.string().uuid(),
+            });
 
-        const createUsersBody = z.object({
-            firstName: z.string().min(10).max(30).optional(),
-            lastName: z.string().min(10).max(30).optional(),
-            email: z.string().email().optional(),
-            password: z.string().min(6).max(20).optional(),
-            birthdate: z.date().optional(),
-            phone: z.string().min(17).max(17).optional(),
-            address: z.string().min(10).max(50).optional(),
-            city: z.string().min(10).max(30).optional(),
-            state: z.string().min(10).max(30).optional(),
-            cep: z.string().min(9).max(9).optional(),
-            country: z.string().min(10).max(30).optional(),
-        });
+            const createUsersBody = z.object({
+                firstName: z.string().min(10).max(30).optional(),
+                lastName: z.string().min(10).max(30).optional(),
+                email: z.string().email().optional(),
+                password: z.string().min(6).max(20).optional(),
+                birthdate: z.date().optional(),
+                phone: z.string().min(17).max(17).optional(),
+                address: z.string().min(10).max(50).optional(),
+                city: z.string().min(10).max(30).optional(),
+                state: z.string().min(10).max(30).optional(),
+                cep: z.string().min(9).max(9).optional(),
+                country: z.string().min(10).max(30).optional(),
+            });
 
-        const id = createUserParams.parse(request.params);
-        const data = createUsersBody.parse(request.body);
+            const id = createUserParams.parse(request.params);
+            const data = createUsersBody.parse(request.body);
 
-        await prisma.users.update({
-            where: id,
-            data,
-        });
+            try {
+                await prisma.users.update({
+                    where: id,
+                    data,
+                });
 
-        return "success";
-    });
+                return "success";
+            } catch (err) {
+                return reply.status(500).send(err);
+            }
+        }
+    );
 
-    server.delete("/user/:id", async (request) => {
-        const createUserParams = z.object({
-            id: z.string().uuid(),
-        });
+    // Delete user
+    server.delete(
+        "/user/:id",
+        { preHandler: authMiddleware },
+        async (request, reply) => {
+            const createUserParams = z.object({
+                id: z.string().uuid(),
+            });
 
-        const id = createUserParams.parse(request.params);
+            const id = createUserParams.parse(request.params);
 
-        await prisma.users.delete({
-            where: id,
-        });
+            try {
+                await prisma.users.delete({
+                    where: id,
+                });
 
-        return "success";
-    });
+                return "success";
+            } catch (err) {
+                return reply.status(500).send(err);
+            }
+        }
+    );
 };
 
 export default userRoutes;

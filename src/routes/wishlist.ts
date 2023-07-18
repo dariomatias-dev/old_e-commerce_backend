@@ -4,58 +4,70 @@ import * as z from "zod";
 import prisma from "../lib/prisma";
 
 const wishlistRoutes = async (server: FastifyInstance) => {
-  // Get All Wishlist Product Ids
-  server.get("/wishlist/:userId", async (request) => {
-    const createFavoritesParams = z.object({
-      userId: z.string().uuid(),
+    // Search all wishlist product IDs
+    server.get("/wishlist/:userId", async (request, reply) => {
+        const createFavoritesParams = z.object({
+            userId: z.string().uuid(),
+        });
+
+        const userId = createFavoritesParams.parse(request.params);
+
+        try {
+            const result = await prisma.wishlists.findUnique({
+                where: userId,
+            });
+
+            return result?.productIds ?? null;
+        } catch (err) {
+            return reply.status(500).send(err);
+        }
     });
 
-    const userId = createFavoritesParams.parse(request.params);
+    // Update wishlist
+    server.put("/wishlist/:userId", async (request, reply) => {
+        const createWishlistParams = z.object({
+            userId: z.string().uuid(),
+        });
 
-    const result = await prisma.wishlists.findUnique({
-      where: userId,
+        const createWishlistBody = z.object({
+            productIds: z.string().array(),
+        });
+
+        const { userId } = createWishlistParams.parse(request.params);
+        const data = createWishlistBody.parse(request.body);
+
+        try {
+            await prisma.wishlists.update({
+                where: {
+                    userId,
+                },
+                data,
+            });
+
+            return "success";
+        } catch (err) {
+            return reply.status(500).send(err);
+        }
     });
 
-    return result?.productIds ?? null;
-  });
+    // Delete user wishlist
+    server.delete("/wishlist/:userId", async (request, reply) => {
+        const createFavoritesParams = z.object({
+            userId: z.string().uuid(),
+        });
 
-  // Update Wishlist
-  server.put("/wishlist/:userId", async (request) => {
-    const createWishlistParams = z.object({
-      userId: z.string().uuid(),
+        const userId = createFavoritesParams.parse(request.params);
+
+        try {
+            await prisma.wishlists.delete({
+                where: userId,
+            });
+
+            return "success";
+        } catch (err) {
+            return reply.status(500).send(err);
+        }
     });
-
-    const createWishlistBody = z.object({
-      productIds: z.string().array(),
-    });
-
-    const { userId } = createWishlistParams.parse(request.params);
-    const data = createWishlistBody.parse(request.body);
-
-    await prisma.wishlists.update({
-      where: {
-        userId,
-      },
-      data,
-    });
-
-    return "success";
-  });
-
-  // Delete User Wishlist
-  server.delete("/wishlist/:userId", async (request) => {
-    const createFavoritesParams = z.object({
-      userId: z.string().uuid(),
-    });
-
-    const userId = createFavoritesParams.parse(request.params);
-
-    await prisma.wishlists.delete({
-      where: userId,
-    });
-
-    return "success";
-  });
 };
 
 export default wishlistRoutes;
