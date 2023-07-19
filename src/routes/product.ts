@@ -4,18 +4,17 @@ import * as z from "zod";
 
 import prisma from "../lib/prisma";
 
+import productSchema from "../schemas/product_schema";
+
 import formattedProducts from "../utils/formattedProducts";
 import getQueries from "../utils/getQueries";
 import setSkipAndTake from "../utils/setSkipAndTake";
+import idParamSchema from "../schemas/id_param_schema";
 
 const productRoutes = async (server: FastifyInstance) => {
     // Search for the product that has the ID sent
     server.get("/product/:id", async (request, reply) => {
-        const createProductParams = z.object({
-            id: z.string().uuid(),
-        });
-
-        const id = createProductParams.parse(request.params);
+        const id = idParamSchema.parse(request.params);
 
         try {
             const product = await prisma.products.findUnique({
@@ -41,11 +40,7 @@ const productRoutes = async (server: FastifyInstance) => {
 
     // Searches for all products that have a given category ID
     server.get("/product-category/:id", async (request, reply) => {
-        const createProductCategoryParams = z.object({
-            id: z.string().uuid(),
-        });
-
-        const { id } = createProductCategoryParams.parse(request.params);
+        const { id } = idParamSchema.parse(request.params);
         const { skip, take } = getQueries(request);
 
         try {
@@ -199,13 +194,7 @@ const productRoutes = async (server: FastifyInstance) => {
 
     // Create product
     server.post("/product", async (request, reply) => {
-        const createProductBody = z.object({
-            name: z.string().min(4).max(30),
-            description: z.string().min(20).max(2000),
-            imageUrlIds: z.string().array().min(1).max(10),
-            price: z.string().min(1).max(6),
-            categoryId: z.string().array().min(1).max(10),
-        });
+        const createProductBody = productSchema;
 
         const data = createProductBody.parse(request.body);
 
@@ -222,19 +211,9 @@ const productRoutes = async (server: FastifyInstance) => {
 
     // Update product
     server.patch("/product/:id", async (request, reply) => {
-        const createProductParams = z.object({
-            id: z.string().uuid(),
-        });
+        const createProductBody = productSchema.partial();
 
-        const createProductBody = z.object({
-            name: z.string().min(4).max(30).optional(),
-            description: z.string().min(20).max(2000).optional(),
-            imageUrlIds: z.string().array().min(1).max(10).optional(),
-            price: z.string().min(1).max(6).optional(),
-            categoryId: z.string().array().min(1).max(10).optional(),
-        });
-
-        const id = createProductParams.parse(request.params);
+        const id = idParamSchema.parse(request.params);
         const data = createProductBody.parse(request.body);
 
         try {
@@ -251,11 +230,7 @@ const productRoutes = async (server: FastifyInstance) => {
 
     // Delete product
     server.delete("/product/:id", async (request, reply) => {
-        const createProductParams = z.object({
-            id: z.string().uuid(),
-        });
-
-        const id = createProductParams.parse(request.params);
+        const id = idParamSchema.parse(request.params);
 
         try {
             await prisma.products.delete({

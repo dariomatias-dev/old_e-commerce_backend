@@ -1,16 +1,14 @@
 import { FastifyInstance } from "fastify";
-import * as z from "zod";
 
 import prisma from "../lib/prisma";
+
+import productIdsSchema from "../schemas/product_ids_schema";
+import userIdParamSchema from "../schemas/user_id_param_schema";
 
 const wishlistRoutes = async (server: FastifyInstance) => {
     // Search all wishlist product IDs
     server.get("/wishlist/:userId", async (request, reply) => {
-        const createFavoritesParams = z.object({
-            userId: z.string().uuid(),
-        });
-
-        const userId = createFavoritesParams.parse(request.params);
+        const userId = userIdParamSchema.parse(request.params);
 
         try {
             const result = await prisma.wishlists.findUnique({
@@ -25,16 +23,8 @@ const wishlistRoutes = async (server: FastifyInstance) => {
 
     // Update wishlist
     server.put("/wishlist/:userId", async (request, reply) => {
-        const createWishlistParams = z.object({
-            userId: z.string().uuid(),
-        });
-
-        const createWishlistBody = z.object({
-            productIds: z.string().array(),
-        });
-
-        const { userId } = createWishlistParams.parse(request.params);
-        const data = createWishlistBody.parse(request.body);
+        const { userId } = userIdParamSchema.parse(request.params);
+        const data = productIdsSchema.parse(request.body);
 
         try {
             await prisma.wishlists.update({
@@ -52,11 +42,7 @@ const wishlistRoutes = async (server: FastifyInstance) => {
 
     // Delete user wishlist
     server.delete("/wishlist/:userId", async (request, reply) => {
-        const createFavoritesParams = z.object({
-            userId: z.string().uuid(),
-        });
-
-        const userId = createFavoritesParams.parse(request.params);
+        const userId = userIdParamSchema.parse(request.params);
 
         try {
             await prisma.wishlists.delete({

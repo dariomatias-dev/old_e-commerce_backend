@@ -1,16 +1,14 @@
 import { FastifyInstance } from "fastify";
-import * as z from "zod";
 
 import prisma from "../lib/prisma";
+
+import categorySchema from "../schemas/category_schema";
+import idParamSchema from "../schemas/id_param_schema";
 
 const categoryRoutes = async (server: FastifyInstance) => {
     // Search user based on ID
     server.get("/category/:id", async (request, reply) => {
-        const createCategoryParams = z.object({
-            id: z.string().uuid(),
-        });
-
-        const id = createCategoryParams.parse(request.params);
+        const id = idParamSchema.parse(request.params);
 
         try {
             const category = await prisma.categories.findUnique({
@@ -36,10 +34,7 @@ const categoryRoutes = async (server: FastifyInstance) => {
 
     // Create category
     server.post("/category", async (request, reply) => {
-        const createCategoryBody = z.object({
-            name: z.string(),
-            imageUrlId: z.string(),
-        });
+        const createCategoryBody = categorySchema;
 
         const data = createCategoryBody.parse(request.body);
 
@@ -56,15 +51,9 @@ const categoryRoutes = async (server: FastifyInstance) => {
 
     // Update category
     server.patch("/category/:id", async (request, reply) => {
-        const createCategoryParams = z.object({
-            id: z.string().uuid(),
-        });
+        const createCategoryBody = categorySchema.partial();
 
-        const createCategoryBody = z.object({
-            name: z.string().optional(),
-        });
-
-        const id = createCategoryParams.parse(request.params);
+        const id = idParamSchema.parse(request.params);
         const data = createCategoryBody.parse(request.body);
 
         try {
@@ -81,11 +70,7 @@ const categoryRoutes = async (server: FastifyInstance) => {
 
     // Delete category
     server.delete("/category/:id", async (request, reply) => {
-        const createCategoryParams = z.object({
-            id: z.string().uuid(),
-        });
-
-        const id = createCategoryParams.parse(request.params);
+        const id = idParamSchema.parse(request.params);
 
         try {
             await prisma.categories.delete({

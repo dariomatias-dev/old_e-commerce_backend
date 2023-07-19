@@ -8,6 +8,7 @@ import prisma from "../lib/prisma";
 import authMiddleware from "../middlewares/authMiddleware";
 
 import userSchema from "../schemas/user_schema";
+import idParamSchema from "../schemas/id_param_schema";
 
 import getQueries from "../utils/getQueries";
 import setSkipAndTake from "../utils/setSkipAndTake";
@@ -18,11 +19,7 @@ const userRoutes = async (server: FastifyInstance) => {
         "/user/:id",
         { preHandler: authMiddleware },
         async (request, reply) => {
-            const createUserParams = z.object({
-                id: z.string().uuid(),
-            });
-
-            const id = createUserParams.parse(request.params);
+            const id = idParamSchema.parse(request.params);
 
             try {
                 const user = await prisma.users.findUnique({
@@ -49,11 +46,7 @@ const userRoutes = async (server: FastifyInstance) => {
 
     // Search user based on ID along with all their orders
     server.get("/user-orders/:id", async (request, reply) => {
-        const createUserOrdersParams = z.object({
-            id: z.string().uuid(),
-        });
-
-        const { id } = createUserOrdersParams.parse(request.params);
+        const { id } = idParamSchema.parse(request.params);
         const { skip, take } = getQueries(request);
 
         try {
@@ -172,13 +165,9 @@ const userRoutes = async (server: FastifyInstance) => {
         "/user/:id",
         { preHandler: authMiddleware },
         async (request, reply) => {
-            const createUserParams = z.object({
-                id: z.string().uuid(),
-            });
-
             let createUsersBody = userSchema.partial();
 
-            const id = createUserParams.parse(request.params);
+            const id = idParamSchema.parse(request.params);
             const data = createUsersBody.parse(request.body);
 
             try {
@@ -199,11 +188,7 @@ const userRoutes = async (server: FastifyInstance) => {
         "/user/:id",
         { preHandler: authMiddleware },
         async (request, reply) => {
-            const createUserParams = z.object({
-                id: z.string().uuid(),
-            });
-
-            const id = createUserParams.parse(request.params);
+            const id = idParamSchema.parse(request.params);
 
             try {
                 await prisma.users.delete({

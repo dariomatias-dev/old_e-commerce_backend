@@ -38,7 +38,14 @@ const authRoutes = async (server: FastifyInstance) => {
         try {
             const token = jwt.sign(payload, secretKey);
 
-            validateRequestData(null, email, password, adminPassword);
+            const error: ValidateRequestDataProps | null =
+                await validateRequestData(null, email, password, adminPassword);
+
+            if (error) {
+                return reply.status(error.status).send({ error: error.error });
+            }
+
+            return { token };
         } catch (err) {
             reply.status(401).send(err);
         }
