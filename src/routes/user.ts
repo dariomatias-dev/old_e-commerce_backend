@@ -110,7 +110,7 @@ const userRoutes = async (server: FastifyInstance) => {
         }
 
         try {
-            const user = await prisma.users.create({
+            await prisma.users.create({
                 data: {
                     ...data,
                     password,
@@ -118,7 +118,6 @@ const userRoutes = async (server: FastifyInstance) => {
             });
 
             const payload = {
-                userId: user.id,
                 email: data.email,
             };
 
@@ -147,7 +146,7 @@ const userRoutes = async (server: FastifyInstance) => {
         }
 
         try {
-            const user = await prisma.users.create({
+            await prisma.users.create({
                 data: {
                     ...data,
                     password,
@@ -156,7 +155,6 @@ const userRoutes = async (server: FastifyInstance) => {
             });
 
             const payload = {
-                userId: user.id,
                 email: data.email,
                 isAdmin: data.isAdmin,
             };

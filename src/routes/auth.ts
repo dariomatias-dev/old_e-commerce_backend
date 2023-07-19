@@ -1,26 +1,34 @@
 import { FastifyInstance } from "fastify";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
 import * as z from "zod";
 
-import prisma from "../lib/prisma";
+import ValidateRequestDataProps from "../@types/validateRequestData";
+
+import validateRequestData from "../utils/validateRequestData";
+
+type PayloadProps = {
+    email: string;
+    isAdmin?: boolean;
+};
 
 const authRoutes = async (server: FastifyInstance) => {
     // Login
-    server.post("/auth/login/:userId", async (request, reply) => {
-        const createLoginParams = z.object({
-            userId: z.string().uuid(),
-        });
-
+    server.post("/auth/login", async (request, reply) => {
         const createLoginBody = z.object({
             email: z.string().email(),
             password: z.string().min(6),
+            adminPassword: z.string().min(6).optional(),
         });
 
-        const { userId } = createLoginParams.parse(request.params);
-        const { email, password } = createLoginBody.parse(request.body);
+        const { email, password, adminPassword } = createLoginBody.parse(
+            request.body
+        );
 
-        const payload = { userId, email };
+        let payload: PayloadProps = { email };
+        if (adminPassword) {
+            payload = { ...payload, isAdmin: true };
+        }
+
         const secretKey = process.env.SECRET_KEY;
 
         if (!secretKey) {
@@ -30,30 +38,7 @@ const authRoutes = async (server: FastifyInstance) => {
         try {
             const token = jwt.sign(payload, secretKey);
 
-            const user = await prisma.users.findUnique({
-                where: {
-                    id: userId,
-                },
-            });
-
-            if (!user) {
-                return reply.status(401).send({ error: "User not found." });
-            }
-
-            if (email !== user?.email) {
-                return reply.status(401).send({ error: "Invalid email." });
-            }
-
-            const isValidPassword = await bcrypt.compare(
-                password,
-                user.password
-            );
-
-            if (!isValidPassword) {
-                return reply.status(401).send({ error: "Invalid password." });
-            }
-
-            reply.send({ token });
+            validateRequestData(null, email, password, adminPassword);
         } catch (err) {
             reply.status(401).send(err);
         }

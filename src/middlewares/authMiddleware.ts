@@ -1,9 +1,10 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
 import * as z from "zod";
 
-import prisma from "../lib/prisma";
+import ValidateRequestDataProps from "../@types/validateRequestData";
+
+import validateRequestData from "../utils/validateRequestData";
 
 const authMiddleware = async (
     request: FastifyRequest,
@@ -17,10 +18,13 @@ const authMiddleware = async (
     const createDataBody = z.object({
         email: z.string().email(),
         password: z.string().min(6),
+        adminPassword: z.string().min(6).optional(),
     });
 
-    const userId = createDataParams.parse(request.params);
-    const { email, password } = createDataBody.parse(request.body);
+    const { id } = createDataParams.parse(request.params);
+    const { email, password, adminPassword } = createDataBody.parse(
+        request.body
+    );
 
     const authHeader = request.headers.authorization;
 
@@ -32,28 +36,17 @@ const authMiddleware = async (
     const secretKey = process.env.SECRET_KEY;
 
     if (!secretKey) {
-        throw new Error("Chave secreta não definida.");
+        throw new Error("Secret key not set.");
     }
 
     try {
         jwt.verify(token, secretKey);
 
-        const user = await prisma.users.findUnique({
-            where: { id: userId.id },
-        });
+        const error: ValidateRequestDataProps | null =
+            await validateRequestData(id, email, password, adminPassword);
 
-        if (!user) {
-            return reply.status(401).send({ error: "User not found." });
-        }
-
-        if (email !== user?.email) {
-            return reply.status(401).send({ error: "Invalid email." });
-        }
-
-        const isValidPassword = await bcrypt.compare(password, user.password);
-
-        if (!isValidPassword) {
-            return reply.status(401).send({ error: "Invalid password." });
+        if (error) {
+            return reply.status(error.status).send({ error: error.error });
         }
 
         done();
