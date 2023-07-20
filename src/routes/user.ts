@@ -96,69 +96,71 @@ const userRoutes = async (server: FastifyInstance) => {
         const data = createUsersBody.parse(request.body);
         const password = await bcrypt.hash(data.password, 10);
 
-        const secretKey = process.env.SECRET_KEY;
+        console.log(data);
 
-        if (!secretKey) {
-            throw new Error("Chave secreta não definida.");
-        }
+        // const secretKey = process.env.SECRET_KEY;
 
-        try {
-            await prisma.users.create({
-                data: {
-                    ...data,
-                    password,
-                },
-            });
+        // if (!secretKey) {
+        //     throw new Error("Chave secreta não definida.");
+        // }
 
-            const payload = {
-                email: data.email,
-            };
+        // try {
+        //     await prisma.users.create({
+        //         data: {
+        //             ...data,
+        //             password,
+        //         },
+        //     });
 
-            const token = jwt.sign(payload, secretKey);
+        //     const payload = {
+        //         email: data.email,
+        //     };
 
-            return { token };
-        } catch (err) {
-            return reply.status(500).send(err);
-        }
+        //     const token = jwt.sign(payload, secretKey);
+
+        //     return { token };
+        // } catch (err) {
+        //     return reply.status(500).send(err);
+        // }
     });
 
     // Create user with admin access
-    server.post("/admin-user", async (request, reply) => {
-        const createUsersBody = userSchema.extend({
-            adminPassword: z.string().min(6),
-        });
+    // server.post("/admin-user", async (request, reply) => {
+    //     const createUsersBody = userSchema.extend({
+    //         adminPassword: z.string().min(6),
+    //     });
 
-        const data = createUsersBody.parse(request.body);
-        const password = await bcrypt.hash(data.password, 10);
-        const adminPassword = await bcrypt.hash(data.adminPassword, 10);
+    //     const data = createUsersBody.parse(request.body);
+    //     const password = await bcrypt.hash(data.password, 10);
+    //     const adminPassword = await bcrypt.hash(data.adminPassword, 10);
 
-        const secretKey = process.env.SECRET_KEY;
+    //     const secretKey = process.env.SECRET_KEY;
 
-        if (!secretKey) {
-            throw new Error("Chave secreta não definida.");
-        }
+    //     if (!secretKey) {
+    //         throw new Error("Chave secreta não definida.");
+    //     }
 
-        try {
-            await prisma.users.create({
-                data: {
-                    ...data,
-                    password,
-                    adminPassword,
-                },
-            });
+    //     try {
+    //         await prisma.users.create({
+    //             data: {
+    //                 ...data,
+    //                 password,
+    //                 adminPassword,
+    //             },
+    //         });
 
-            const payload = {
-                email: data.email,
-                isAdmin: data.isAdmin,
-            };
+    //         const payload = {
+    //             email: data.email,
+    //             isAdmin: data.isAdmin,
+    //         };
 
-            const token = jwt.sign(payload, secretKey);
+    //         const token = jwt.sign(payload, secretKey);
 
-            return { token };
-        } catch (err) {
-            return reply.status(500).send(err);
-        }
-    });
+    //         return { token };
+    //     } catch (err) {
+    //         return reply.status(500).send(err);
+    //     }
+    // });
 
     // Update user
     server.patch(
