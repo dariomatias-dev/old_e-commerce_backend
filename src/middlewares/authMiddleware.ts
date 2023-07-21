@@ -36,7 +36,7 @@ const authMiddleware = async (
     const secretKey = process.env.SECRET_KEY;
 
     if (!secretKey) {
-        throw new Error("Secret key not set.");
+        throw new Error("Secret key not set");
     }
 
     try {

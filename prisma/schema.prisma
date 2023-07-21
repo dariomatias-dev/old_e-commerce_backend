@@ -15,25 +15,45 @@ datasource db {
 }
 
 model Users {
-  id            String   @id @default(uuid())
-  firstName     String
-  lastName      String
-  email         String   @unique
-  password      String
-  birthdate     DateTime
-  phone         String   @unique
-  address       String
-  city          String
-  cep           String
-  state         String
-  country       String
-  isAdmin       Boolean
-  adminPassword String?
+  id              String   @id @default(uuid())
+  firstName       String
+  lastName        String
+  dateOfBirth     DateTime
+  phone           String   @unique
+  cpf             String   @unique
+  rg              String   @unique
+  email           String   @unique
+  state           String
+  city            String
+  address         String
+  cep             String
+  password        String
+  termsOfUse      Boolean
+  receiveMessages Boolean
+  adminPassword   String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("user")
+}
+
+model Wishlists {
+  userId     String   @id @default(uuid())
+  productIds String[]
+
+  @@map("wishlist")
+}
+
+model Carts {
+  userId     String   @id @default(uuid())
+  productIds String[]
+
+  @@map("cart")
+}
+
+model NewsletterSubscribers {
+  email String @id @default(uuid())
 }
 
 model Categories {
@@ -59,20 +79,6 @@ model Products {
   updatedAt DateTime @updatedAt
 
   @@map("product")
-}
-
-model Wishlists {
-  userId     String   @id @default(uuid())
-  productIds String[]
-
-  @@map("wishlist")
-}
-
-model Carts {
-  userId     String   @id @default(uuid())
-  productIds String[]
-
-  @@map("cart")
 }
 
 model Orders {

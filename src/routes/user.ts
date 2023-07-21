@@ -96,32 +96,51 @@ const userRoutes = async (server: FastifyInstance) => {
         const data = createUsersBody.parse(request.body);
         const password = await bcrypt.hash(data.password, 10);
 
-        console.log(data);
+        if (!data.termsOfUse) {
+            reply
+                .status(403)
+                .send("It is mandatory to accept the terms of services");
+        }
 
-        // const secretKey = process.env.SECRET_KEY;
+        const secretKey = process.env.SECRET_KEY;
 
-        // if (!secretKey) {
-        //     throw new Error("Chave secreta não definida.");
-        // }
+        if (!secretKey) {
+            throw new Error("Secret key not set");
+        }
 
-        // try {
-        //     await prisma.users.create({
-        //         data: {
-        //             ...data,
-        //             password,
-        //         },
-        //     });
+        try {
+            const user = await prisma.users.create({
+                data: {
+                    ...data,
+                    password,
+                },
+            });
 
-        //     const payload = {
-        //         email: data.email,
-        //     };
+            const userPreferences = {
+                userId: user.id,
+                productIds: [],
+            };
 
-        //     const token = jwt.sign(payload, secretKey);
+            await prisma.wishlists.create({ data: userPreferences });
 
-        //     return { token };
-        // } catch (err) {
-        //     return reply.status(500).send(err);
-        // }
+            await prisma.carts.create({ data: userPreferences });
+
+            await prisma.newsletterSubscribers.create({
+                data: {
+                    email: user.email,
+                },
+            });
+
+            const payload = {
+                email: data.email,
+            };
+
+            const token = jwt.sign(payload, secretKey);
+
+            return { token };
+        } catch (err) {
+            return reply.status(500).send(err);
+        }
     });
 
     // Create user with admin access
