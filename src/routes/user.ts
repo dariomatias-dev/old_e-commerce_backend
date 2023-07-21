@@ -1,7 +1,6 @@
 import { FastifyInstance } from "fastify";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import * as z from "zod";
 
 import prisma from "../lib/prisma";
 
@@ -94,6 +93,7 @@ const userRoutes = async (server: FastifyInstance) => {
         const createUsersBody = userSchema;
 
         const data = createUsersBody.parse(request.body);
+        const email = data.email;
         const password = await bcrypt.hash(data.password, 10);
 
         if (!data.termsOfUse) {
@@ -116,23 +116,28 @@ const userRoutes = async (server: FastifyInstance) => {
                 },
             });
 
-            const userPreferences = {
+            const userPreferencesData = {
                 userId: user.id,
                 productIds: [],
             };
 
-            await prisma.wishlists.create({ data: userPreferences });
+            // Create the user's wish list
+            await prisma.wishlists.create({ data: userPreferencesData });
 
-            await prisma.carts.create({ data: userPreferences });
+            // Create user cart
+            await prisma.carts.create({ data: userPreferencesData });
 
-            await prisma.newsletterSubscribers.create({
-                data: {
-                    email: user.email,
-                },
-            });
+            // Add the user's email if you want to receive offers, promotions, news and much more.
+            if (data.receiveMessages) {
+                await prisma.newsletterSubscribers.create({
+                    data: {
+                        email,
+                    },
+                });
+            }
 
             const payload = {
-                email: data.email,
+                email,
             };
 
             const token = jwt.sign(payload, secretKey);
@@ -212,9 +217,39 @@ const userRoutes = async (server: FastifyInstance) => {
             const id = idParamSchema.parse(request.params);
 
             try {
-                await prisma.users.delete({
+                const user = await prisma.users.delete({
                     where: id,
                 });
+
+                // Delete the user wishlist
+                await prisma.wishlists.delete({
+                    where: {
+                        userId: user.id,
+                    },
+                });
+
+                // Delete the user cart
+                await prisma.carts.delete({
+                    where: {
+                        userId: user.id,
+                    },
+                });
+
+                const newsletterEmail =
+                    await prisma.newsletterSubscribers.findUnique({
+                        where: {
+                            email: user.email,
+                        },
+                    });
+
+                // Delete newsletter subscribers user email if exists
+                if (newsletterEmail) {
+                    await prisma.newsletterSubscribers.delete({
+                        where: {
+                            email: user.email,
+                        },
+                    });
+                }
 
                 return "success";
             } catch (err) {
