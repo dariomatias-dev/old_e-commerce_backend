@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-const userSchema = z.object({
+const physicalPersonUserSchema = z.object({
     firstName: z.string().min(3).max(30),
     lastName: z.string().min(3).max(30),
     dateOfBirth: z.string().refine((value) => {
@@ -20,4 +20,4 @@ const userSchema = z.object({
     receiveMessages: z.boolean(),
 });
 
-export default userSchema;
+export default physicalPersonUserSchema;

@@ -1,13 +1,13 @@
 import prisma from "../src/lib/prisma";
 
 async function run() {
-    await prisma.users.deleteMany();
+    await prisma.physicalPersonUsers.deleteMany();
     await prisma.categories.deleteMany();
     await prisma.products.deleteMany();
     await prisma.orders.deleteMany();
 
     await Promise.all([
-        prisma.users.create({
+        prisma.physicalPersonUsers.create({
             data: {
                 id: "57e99e52-753e-4da7-8a67-a6286edd2ee4",
                 firstName: "John",
@@ -26,7 +26,7 @@ async function run() {
                 receiveMessages: false,
             },
         }),
-        prisma.users.create({
+        prisma.physicalPersonUsers.create({
             data: {
                 id: "f8a5ded4-9247-44c2-a794-15aa5ff6fda1",
                 firstName: "Emily",
@@ -45,7 +45,7 @@ async function run() {
                 receiveMessages: true,
             },
         }),
-        prisma.users.create({
+        prisma.physicalPersonUsers.create({
             data: {
                 id: "df942326-5cfc-48eb-adc9-ad269d91974e",
                 firstName: "Liam",
@@ -64,7 +64,7 @@ async function run() {
                 receiveMessages: true,
             },
         }),
-        prisma.users.create({
+        prisma.physicalPersonUsers.create({
             data: {
                 id: "f0d33f1f-dabe-4389-b16f-fb4e59812456",
                 firstName: "Sophia",
@@ -83,7 +83,7 @@ async function run() {
                 receiveMessages: true,
             },
         }),
-        prisma.users.create({
+        prisma.physicalPersonUsers.create({
             data: {
                 id: "f9a88d43-87e0-4330-b4c6-7fa84f117190",
                 firstName: "Oliver",
@@ -102,7 +102,7 @@ async function run() {
                 receiveMessages: false,
             },
         }),
-        prisma.users.create({
+        prisma.physicalPersonUsers.create({
             data: {
                 id: "c024b2c8-41dd-43a7-b366-93fca49ce8e5",
                 firstName: "Ava",
@@ -121,7 +121,7 @@ async function run() {
                 receiveMessages: false,
             },
         }),
-        prisma.users.create({
+        prisma.physicalPersonUsers.create({
             data: {
                 id: "2276f35e-0b6b-4e96-8f5e-799c53260e34",
                 firstName: "Noah",
@@ -140,7 +140,7 @@ async function run() {
                 receiveMessages: true,
             },
         }),
-        prisma.users.create({
+        prisma.physicalPersonUsers.create({
             data: {
                 id: "becda7ee-3b62-49af-8349-b01f29336624",
                 firstName: "Emma",
@@ -159,7 +159,7 @@ async function run() {
                 receiveMessages: false,
             },
         }),
-        prisma.users.create({
+        prisma.physicalPersonUsers.create({
             data: {
                 id: "8edfc04b-d884-45eb-b833-81c32d143bc6",
                 firstName: "Liam",
@@ -178,7 +178,7 @@ async function run() {
                 receiveMessages: true,
             },
         }),
-        prisma.users.create({
+        prisma.physicalPersonUsers.create({
             data: {
                 id: "5113e130-c020-450d-a232-24f6af372d84",
                 firstName: "Olivia",
@@ -197,7 +197,7 @@ async function run() {
                 receiveMessages: false,
             },
         }),
-        prisma.users.create({
+        prisma.physicalPersonUsers.create({
             data: {
                 id: "11a4a5b3-d36b-4f7b-a26f-0d454f50e405",
                 firstName: "Noah",
@@ -216,7 +216,7 @@ async function run() {
                 receiveMessages: true,
             },
         }),
-        prisma.users.create({
+        prisma.physicalPersonUsers.create({
             data: {
                 id: "765195f4-c29e-41d9-88be-e3f3c04bac5d",
                 firstName: "James",
@@ -235,7 +235,7 @@ async function run() {
                 receiveMessages: false,
             },
         }),
-        prisma.users.create({
+        prisma.physicalPersonUsers.create({
             data: {
                 id: "36ef110e-100c-4fa8-b609-700df539caf4",
                 firstName: "Isabella",
@@ -254,7 +254,7 @@ async function run() {
                 receiveMessages: false,
             },
         }),
-        prisma.users.create({
+        prisma.physicalPersonUsers.create({
             data: {
                 id: "b964ba88-c9e5-48a4-9b27-7d92544c1748",
                 firstName: "Mia",
@@ -273,7 +273,7 @@ async function run() {
                 receiveMessages: true,
             },
         }),
-        prisma.users.create({
+        prisma.physicalPersonUsers.create({
             data: {
                 id: "28dd3e7b-6e4e-4f29-8ecf-7045574472a3",
                 firstName: "Alexander",
@@ -292,7 +292,7 @@ async function run() {
                 receiveMessages: false,
             },
         }),
-        prisma.users.create({
+        prisma.physicalPersonUsers.create({
             data: {
                 id: "475cd22c-9d5d-4202-9b95-f2a6040b96dd",
                 firstName: "Charlotte",
@@ -311,7 +311,7 @@ async function run() {
                 receiveMessages: true,
             },
         }),
-        prisma.users.create({
+        prisma.physicalPersonUsers.create({
             data: {
                 id: "2bc5ff61-eed1-4076-865b-1884a9f819b9",
                 firstName: "Jackson",
@@ -330,7 +330,7 @@ async function run() {
                 receiveMessages: true,
             },
         }),
-        prisma.users.create({
+        prisma.physicalPersonUsers.create({
             data: {
                 id: "e82df5d9-1458-43ed-bbe6-9440806e8950",
                 firstName: "Ava",
@@ -349,7 +349,7 @@ async function run() {
                 receiveMessages: false,
             },
         }),
-        prisma.users.create({
+        prisma.physicalPersonUsers.create({
             data: {
                 id: "0901f7e2-f993-4f60-ad97-a6ea912632bd",
                 firstName: "William",
@@ -368,7 +368,7 @@ async function run() {
                 receiveMessages: false,
             },
         }),
-        prisma.users.create({
+        prisma.physicalPersonUsers.create({
             data: {
                 id: "c5d65cfa-e2fb-4d43-a550-46a29bcce265",
                 firstName: "Olivia",

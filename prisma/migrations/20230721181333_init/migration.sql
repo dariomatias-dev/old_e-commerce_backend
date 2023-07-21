@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "user" (
+CREATE TABLE "physicalPersonUser" (
     "id" TEXT NOT NULL,
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
@@ -19,7 +19,31 @@ CREATE TABLE "user" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "user_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "physicalPersonUser_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "legalPersonUser" (
+    "id" TEXT NOT NULL,
+    "fantasyName" TEXT NOT NULL,
+    "corporateName" TEXT NOT NULL,
+    "cnpj" TEXT NOT NULL,
+    "stateRegistration" TEXT NOT NULL,
+    "cpf" TEXT NOT NULL,
+    "rg" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "phone" TEXT NOT NULL,
+    "state" TEXT NOT NULL,
+    "city" TEXT NOT NULL,
+    "address" TEXT NOT NULL,
+    "cep" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "termsOfUse" BOOLEAN NOT NULL,
+    "receiveMessages" BOOLEAN NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "legalPersonUser_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -93,16 +117,34 @@ CREATE TABLE "orderItem" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "user_phone_key" ON "user"("phone");
+CREATE UNIQUE INDEX "physicalPersonUser_phone_key" ON "physicalPersonUser"("phone");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "user_cpf_key" ON "user"("cpf");
+CREATE UNIQUE INDEX "physicalPersonUser_cpf_key" ON "physicalPersonUser"("cpf");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "user_rg_key" ON "user"("rg");
+CREATE UNIQUE INDEX "physicalPersonUser_rg_key" ON "physicalPersonUser"("rg");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
+CREATE UNIQUE INDEX "physicalPersonUser_email_key" ON "physicalPersonUser"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "legalPersonUser_cnpj_key" ON "legalPersonUser"("cnpj");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "legalPersonUser_stateRegistration_key" ON "legalPersonUser"("stateRegistration");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "legalPersonUser_cpf_key" ON "legalPersonUser"("cpf");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "legalPersonUser_rg_key" ON "legalPersonUser"("rg");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "legalPersonUser_email_key" ON "legalPersonUser"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "legalPersonUser_phone_key" ON "legalPersonUser"("phone");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "category_name_key" ON "category"("name");

@@ -1,16 +1,19 @@
 import { FastifyInstance } from "fastify";
+import { LegalPersonUsers, PhysicalPersonUsers } from "prisma/prisma-client";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import * as z from "zod";
 
 import prisma from "../lib/prisma";
 
 import authMiddleware from "../middlewares/authMiddleware";
 
-import userSchema from "../schemas/user_schema";
+import physicalPersonUserSchema from "../schemas/physical_person_user_schema";
 import idParamSchema from "../schemas/id_param_schema";
 
 import getQueries from "../utils/getQueries";
 import setSkipAndTake from "../utils/setSkipAndTake";
+import legalPersonUserSchema from "../schemas/legal_person_user_schema";
 
 const userRoutes = async (server: FastifyInstance) => {
     // Search user based on ID
@@ -21,7 +24,7 @@ const userRoutes = async (server: FastifyInstance) => {
             const id = idParamSchema.parse(request.params);
 
             try {
-                const user = await prisma.users.findUnique({
+                const user = await prisma.physicalPersonUsers.findUnique({
                     where: id,
                 });
 
@@ -35,7 +38,7 @@ const userRoutes = async (server: FastifyInstance) => {
     // Count the total amount of users
     server.get("/users-amount", async (_, reply) => {
         try {
-            const usersAmount = await prisma.users.count();
+            const usersAmount = await prisma.physicalPersonUsers.count();
 
             return usersAmount;
         } catch (err) {
@@ -74,7 +77,7 @@ const userRoutes = async (server: FastifyInstance) => {
         const { skip, take } = getQueries(request);
 
         try {
-            const users = await prisma.users.findMany({
+            const users = await prisma.physicalPersonUsers.findMany({
                 take,
                 skip,
             });
@@ -89,10 +92,18 @@ const userRoutes = async (server: FastifyInstance) => {
     });
 
     // Create user
-    server.post("/user", async (request, reply) => {
-        const createUsersBody = userSchema;
+    server.post("/create-user/:type", async (request, reply) => {
+        const createUserParams = z.object({
+            type: z.string().min(12).max(16),
+        });
 
-        const data = createUsersBody.parse(request.body);
+        const { type } = createUserParams.parse(request.params);
+        const isPhysicalPerson = type === "physical-person";
+        const createUserBody = isPhysicalPerson
+            ? physicalPersonUserSchema
+            : legalPersonUserSchema;
+
+        const data = createUserBody.parse(request.body);
         const email = data.email;
         const password = await bcrypt.hash(data.password, 10);
 
@@ -109,12 +120,21 @@ const userRoutes = async (server: FastifyInstance) => {
         }
 
         try {
-            const user = await prisma.users.create({
-                data: {
-                    ...data,
-                    password,
-                },
-            });
+            let user: PhysicalPersonUsers | LegalPersonUsers;
+            const userRecord = {
+                ...data,
+                password,
+            };
+
+            if (isPhysicalPerson) {
+                user = await prisma.physicalPersonUsers.create({
+                    data: userRecord as unknown as PhysicalPersonUsers,
+                });
+            } else {
+                user = await prisma.legalPersonUsers.create({
+                    data: userRecord as unknown as LegalPersonUsers,
+                });
+            }
 
             const userPreferencesData = {
                 userId: user.id,
@@ -191,13 +211,13 @@ const userRoutes = async (server: FastifyInstance) => {
         "/user/:id",
         { preHandler: authMiddleware },
         async (request, reply) => {
-            let createUsersBody = userSchema.partial();
+            let createUsersBody = physicalPersonUserSchema.partial();
 
             const id = idParamSchema.parse(request.params);
             const data = createUsersBody.parse(request.body);
 
             try {
-                await prisma.users.update({
+                await prisma.physicalPersonUsers.update({
                     where: id,
                     data,
                 });
@@ -217,7 +237,7 @@ const userRoutes = async (server: FastifyInstance) => {
             const id = idParamSchema.parse(request.params);
 
             try {
-                const user = await prisma.users.delete({
+                const user = await prisma.physicalPersonUsers.delete({
                     where: id,
                 });
 

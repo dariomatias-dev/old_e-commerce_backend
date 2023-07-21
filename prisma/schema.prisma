@@ -14,7 +14,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
+model PhysicalPersonUsers {
   id              String   @id @default(uuid())
   firstName       String
   lastName        String
@@ -35,7 +35,31 @@ model Users {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("user")
+  @@map("physicalPersonUser")
+}
+
+model LegalPersonUsers {
+  id                String  @id @default(uuid())
+  fantasyName       String
+  corporateName     String
+  cnpj              String  @unique
+  stateRegistration String  @unique
+  cpf               String  @unique
+  rg                String  @unique
+  email             String  @unique
+  phone             String  @unique
+  state             String
+  city              String
+  address           String
+  cep               String
+  password          String
+  termsOfUse        Boolean
+  receiveMessages   Boolean
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("legalPersonUser")
 }
 
 model Wishlists {
