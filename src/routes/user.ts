@@ -92,7 +92,7 @@ const userRoutes = async (server: FastifyInstance) => {
     });
 
     // Create user
-    server.post("/create-user/:type", async (request, reply) => {
+    server.post("/register-user/:type", async (request, reply) => {
         const createUserParams = z.object({
             type: z.string().min(12).max(16),
         });
@@ -231,15 +231,28 @@ const userRoutes = async (server: FastifyInstance) => {
 
     // Delete user
     server.delete(
-        "/user/:id",
+        "/user/:id/:type",
         { preHandler: authMiddleware },
         async (request, reply) => {
             const id = idParamSchema.parse(request.params);
+            const createUserParams = z.object({
+                type: z.string().min(12).max(16),
+            });
+
+            const { type } = createUserParams.parse(request.params);
+            const isPhysicalPerson = type === "physical-person";
 
             try {
-                const user = await prisma.physicalPersonUsers.delete({
-                    where: id,
-                });
+                let user: PhysicalPersonUsers | LegalPersonUsers;
+                if (isPhysicalPerson) {
+                    user = await prisma.physicalPersonUsers.delete({
+                        where: id,
+                    });
+                } else {
+                    user = await prisma.legalPersonUsers.delete({
+                        where: id,
+                    });
+                }
 
                 // Delete the user wishlist
                 await prisma.wishlists.delete({

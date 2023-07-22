@@ -13,6 +13,7 @@ const authMiddleware = async (
 ) => {
     const createDataParams = z.object({
         id: z.string().uuid(),
+        type: z.string().min(12).max(16),
     });
 
     const createDataBody = z.object({
@@ -21,7 +22,7 @@ const authMiddleware = async (
         adminPassword: z.string().min(6).optional(),
     });
 
-    const { id } = createDataParams.parse(request.params);
+    const { id, type } = createDataParams.parse(request.params);
     const { email, password, adminPassword } = createDataBody.parse(
         request.body
     );
@@ -43,7 +44,7 @@ const authMiddleware = async (
         jwt.verify(token, secretKey);
 
         const error: ValidateRequestDataProps | null =
-            await validateRequestData(id, email, password, adminPassword);
+            await validateRequestData(id, type, email, password, adminPassword);
 
         if (error) {
             return reply.status(error.status).send({ error: error.error });
