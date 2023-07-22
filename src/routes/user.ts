@@ -14,6 +14,7 @@ import idParamSchema from "../schemas/id_param_schema";
 import getQueries from "../utils/getQueries";
 import setSkipAndTake from "../utils/setSkipAndTake";
 import legalPersonUserSchema from "../schemas/legal_person_user_schema";
+import userParamsSchema from "../schemas/userParamsSchema";
 
 const userRoutes = async (server: FastifyInstance) => {
     // Search user based on ID
@@ -21,16 +22,23 @@ const userRoutes = async (server: FastifyInstance) => {
         "/user/:id",
         { preHandler: authMiddleware },
         async (request, reply) => {
-            const id = idParamSchema.parse(request.params);
+            const { id } = idParamSchema.parse(request.params);
 
             try {
-                const user = await prisma.physicalPersonUsers.findUnique({
-                    where: id,
+                let user: PhysicalPersonUsers | LegalPersonUsers | null;
+                user = await prisma.physicalPersonUsers.findUnique({
+                    where: { id },
                 });
+
+                if (user === null) {
+                    user = await prisma.legalPersonUsers.findUnique({
+                        where: { id },
+                    });
+                }
 
                 return user;
             } catch (err) {
-                return reply.status(500).send(err);
+                return reply.status(500).send({ error: err });
             }
         }
     );
@@ -42,7 +50,7 @@ const userRoutes = async (server: FastifyInstance) => {
 
             return usersAmount;
         } catch (err) {
-            return reply.status(500).send(err);
+            return reply.status(500).send({ error: err });
         }
     });
 
@@ -164,7 +172,7 @@ const userRoutes = async (server: FastifyInstance) => {
 
             return { token };
         } catch (err) {
-            return reply.status(500).send(err);
+            return reply.status(500).send({ error: err });
         }
     });
 
@@ -202,7 +210,7 @@ const userRoutes = async (server: FastifyInstance) => {
 
     //         return { token };
     //     } catch (err) {
-    //         return reply.status(500).send(err);
+    //         return reply.status(500).send({ error: err });
     //     }
     // });
 
@@ -213,18 +221,28 @@ const userRoutes = async (server: FastifyInstance) => {
         async (request, reply) => {
             let createUsersBody = physicalPersonUserSchema.partial();
 
-            const id = idParamSchema.parse(request.params);
+            const { id, type } = userParamsSchema.parse(request.params);
             const data = createUsersBody.parse(request.body);
+            const isPhysicalPerson = type === "physical-person";
 
             try {
+                if (isPhysicalPerson) {
+                    await prisma.physicalPersonUsers.delete({
+                        where: { id },
+                    });
+                } else {
+                    await prisma.legalPersonUsers.delete({
+                        where: { id },
+                    });
+                }
                 await prisma.physicalPersonUsers.update({
-                    where: id,
+                    where: { id },
                     data,
                 });
 
                 return "success";
             } catch (err) {
-                return reply.status(500).send(err);
+                return reply.status(500).send({ error: err });
             }
         }
     );
@@ -234,23 +252,23 @@ const userRoutes = async (server: FastifyInstance) => {
         "/user/:id/:type",
         { preHandler: authMiddleware },
         async (request, reply) => {
-            const id = idParamSchema.parse(request.params);
             const createUserParams = z.object({
+                id: z.string().uuid(),
                 type: z.string().min(12).max(16),
             });
 
-            const { type } = createUserParams.parse(request.params);
-            const isPhysicalPerson = type === "physical-person";
+            const { id, type } = createUserParams.parse(request.params);
 
             try {
                 let user: PhysicalPersonUsers | LegalPersonUsers;
-                if (isPhysicalPerson) {
+
+                if (type === "physical-person") {
                     user = await prisma.physicalPersonUsers.delete({
-                        where: id,
+                        where: { id },
                     });
                 } else {
                     user = await prisma.legalPersonUsers.delete({
-                        where: id,
+                        where: { id },
                     });
                 }
 
@@ -286,7 +304,7 @@ const userRoutes = async (server: FastifyInstance) => {
 
                 return "success";
             } catch (err) {
-                return reply.status(500).send(err);
+                return reply.status(500).send({ error: err });
             }
         }
     );

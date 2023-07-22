@@ -5,20 +5,19 @@ import prisma from "../lib/prisma";
 
 const validateRequestData = async (
     userId: string | null,
-    type: string,
     email: string,
     password: string,
     adminPassword: string | undefined
 ) => {
     const where = userId ? { id: userId } : { email };
-    const isPhysicalPerson = type === "physical-person";
 
     let user: PhysicalPersonUsers | LegalPersonUsers | null;
-    if (isPhysicalPerson) {
-        user = await prisma.physicalPersonUsers.findUnique({
-            where,
-        });
-    } else {
+
+    user = await prisma.physicalPersonUsers.findUnique({
+        where,
+    });
+
+    if (user === null) {
         user = await prisma.legalPersonUsers.findUnique({
             where,
         });
@@ -37,10 +36,8 @@ const validateRequestData = async (
         return { status: 401, error: "Invalid password" };
     }
 
-    if (!isPhysicalPerson) return null;
-
     // Check that an administrator password has been passed and that the user has one
-    if (adminPassword && (user as PhysicalPersonUsers).adminPassword) {
+    if (adminPassword && ("adminPassword" in user)) {
         const isValidAdminPassword = await bcrypt.compare(
             adminPassword,
             (user as PhysicalPersonUsers).adminPassword!

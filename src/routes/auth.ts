@@ -47,7 +47,7 @@ const authRoutes = async (server: FastifyInstance) => {
 
             return { token };
         } catch (err) {
-            reply.status(401).send(err);
+            reply.status(401).send({ error: err });
         }
     });
 

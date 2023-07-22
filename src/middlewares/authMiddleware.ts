@@ -1,28 +1,28 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import * as z from "zod";
 
 import ValidateRequestDataProps from "../@types/validateRequestData";
 
 import validateRequestData from "../utils/validateRequestData";
+import idParamSchema from "../schemas/id_param_schema";
+
+interface DecodedTokenProps extends JwtPayload {
+    email: string;
+}
 
 const authMiddleware = async (
     request: FastifyRequest,
     reply: FastifyReply,
     done: () => void
 ) => {
-    const createDataParams = z.object({
-        id: z.string().uuid(),
-        type: z.string().min(12).max(16),
-    });
-
     const createDataBody = z.object({
         email: z.string().email(),
         password: z.string().min(6),
         adminPassword: z.string().min(6).optional(),
     });
 
-    const { id, type } = createDataParams.parse(request.params);
+    const { id } = idParamSchema.parse(request.params);
     const { email, password, adminPassword } = createDataBody.parse(
         request.body
     );
@@ -41,10 +41,14 @@ const authMiddleware = async (
     }
 
     try {
-        jwt.verify(token, secretKey);
+        const decodedToken = jwt.verify(token, secretKey) as DecodedTokenProps;
+
+        if (decodedToken.email !== email) {
+            reply.status(401).send({ error: "Invalid token" });
+        }
 
         const error: ValidateRequestDataProps | null =
-            await validateRequestData(id, type, email, password, adminPassword);
+            await validateRequestData(id, email, password, adminPassword);
 
         if (error) {
             return reply.status(error.status).send({ error: error.error });
