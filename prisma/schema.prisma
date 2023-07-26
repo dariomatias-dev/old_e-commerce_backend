@@ -83,7 +83,6 @@ model NewsletterSubscribers {
 model Categories {
   id         String @id @default(uuid())
   name       String @unique
-  imageUrlId String @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -92,12 +91,12 @@ model Categories {
 }
 
 model Products {
-  id          String   @id @default(uuid())
-  name        String   @unique
-  description String
-  imageUrlIds String[] @unique
-  price       String
-  categoryIds String[]
+  id             String   @id @default(uuid())
+  name           String   @unique
+  description    String
+  amountOfImages Int
+  price          String
+  categoryIds    String[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

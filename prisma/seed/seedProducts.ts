@@ -7,15 +7,11 @@ const seedProducts = async () => {
         prisma.products.create({
             data: {
                 id: "32bbd300-5398-4837-a26a-fef408e0c5be",
-                name: "Processador Intel Core i7-10700K",
+                name: "Intel Core i7-10700K",
                 description:
                     "O Processador Intel Core i7-9700K é um poderoso componente de 9ª geração projetado pela Intel para atender às demandas de alto desempenho dos PCs modernos. Com uma arquitetura avançada e velocidades impressionantes, ele oferece uma experiência de processamento excepcional para entusiastas de jogos e profissionais que exigem performance intensiva. O i7-9700K possui 8 núcleos e 8 threads, operando a uma frequência base de 3.6GHz e alcançando até 4.9GHz no modo Turbo Boost. Com recursos como Intel Optane Memory suportado e Intel UHD Graphics 630 integrada, este processador proporciona um desempenho rápido e fluido em jogos, renderização de vídeos, edição de mídia e tarefas multitarefas intensivas. Ele é compatível com soquetes LGA 1151 e requer uma placa-mãe com chipset adequado para aproveitar todo o seu potencial. O Processador Intel Core i7-9700K é a escolha ideal para quem busca desempenho excepcional e capacidade de resposta imediata em seu PC de alto desempenho.",
                 price: "2166.66",
-                imageUrlIds: [
-                    "52974159533_a614b9cd45_w",
-                    "52974081865_869d5a360c_w",
-                    "52973849659_ae4b658e0a_w",
-                ],
+                amountOfImages: 3,
                 categoryIds: ["bf565cbb-1f85-49c4-9292-ccff1d2bbe3e"],
             },
         }),
@@ -26,31 +22,18 @@ const seedProducts = async () => {
                 description:
                     "A Placa de Vídeo NVIDIA GeForce RTX 3080 é um componente de última geração que oferece um desempenho gráfico excepcional e recursos avançados para entusiastas de jogos e profissionais de criação de conteúdo. Equipada com a tecnologia revolucionária de Ray Tracing da NVIDIA, a RTX 3080 permite uma renderização de imagens realistas em tempo real, com reflexos, sombras e iluminação incrivelmente precisos. Com 8704 núcleos CUDA e 10 GB de memória GDDR6X de alta velocidade, essa placa de vídeo proporciona uma experiência de jogo fluida e imersiva mesmo nos títulos mais exigentes. Além disso, a RTX 3080 suporta recursos avançados, como DLSS (Deep Learning Super Sampling) para melhorias de desempenho e resolução, bem como tecnologias de transmissão e captura de vídeos em alta qualidade. Se você procura o máximo de desempenho gráfico e qualidade visual impressionante, a Placa de Vídeo NVIDIA GeForce RTX 3080 é a escolha perfeita. Aproveite o poder da próxima geração de jogos e experiências visuais incríveis em seu PC.",
                 price: "13092.93",
-                imageUrlIds: [
-                    "52974081855_07ec950da3_n",
-                    "52973706976_2d188b9ebe_w",
-                    "52973706981_0aa735776a_n",
-                    "52973111392_ec50233e9e_n",
-                    "52973849689_fc29e13eb1_w",
-                    "52973707036_b625643cc5",
-                    "52973111422_3c1b116a54_h",
-                ],
+                amountOfImages: 7,
                 categoryIds: ["f5f513f6-4172-4a00-87a0-d03d8bae2fa2"],
             },
         }),
         prisma.products.create({
             data: {
                 id: "461764ae-a7e1-4fed-9401-67568e19588a",
-                name: "Corsair Vengeance RGB Pro",
+                name: "Memória Corsair Vengeance",
                 description:
-                    "A Memória RAM Corsair Vengeance RGB Pro é um módulo de memória DDR4 projetado para oferecer desempenho excepcional e estilo personalizado ao seu sistema. Com capacidade de aprimorar a velocidade e a capacidade de resposta do seu PC, essa memória RAM é uma escolha ideal para entusiastas de jogos, profissionais de criação de conteúdo e entusiastas de PC em geral. Com a tecnologia DDR4, você desfrutará de taxas de transferência de dados rápidas e maior largura de banda, permitindo que você execute várias tarefas simultaneamente e carregue aplicativos pesados com facilidade. O destaque da Corsair Vengeance RGB Pro é a sua iluminação RGB personalizável, que adiciona um toque de estilo ao seu sistema. Com o software de controle da Corsair, você pode personalizar e sincronizar os efeitos de iluminação com outros componentes do seu PC, criando uma aparência única e impressionante. Além disso, a Vengeance RGB Pro é compatível com perfis de overclocking XMP 2.0, o que permite ajustes rápidos e fáceis para obter o máximo desempenho. Se você busca uma memória RAM confiável, de alto desempenho e com estilo personalizável, a Corsair Vengeance RGB Pro é a escolha perfeita para o seu sistema.",
+                    "A Memória RAM Corsair Vengeance é um módulo de memória DDR4 projetado para oferecer desempenho excepcional e estilo personalizado ao seu sistema. Com capacidade de aprimorar a velocidade e a capacidade de resposta do seu PC, essa memória RAM é uma escolha ideal para entusiastas de jogos, profissionais de criação de conteúdo e entusiastas de PC em geral. Com a tecnologia DDR4, você desfrutará de taxas de transferência de dados rápidas e maior largura de banda, permitindo que você execute várias tarefas simultaneamente e carregue aplicativos pesados com facilidade. O destaque da Corsair Vengeance é a sua iluminação RGB personalizável, que adiciona um toque de estilo ao seu sistema. Com o software de controle da Corsair, você pode personalizar e sincronizar os efeitos de iluminação com outros componentes do seu PC, criando uma aparência única e impressionante. Além disso, a Vengeance é compatível com perfis de overclocking XMP 2.0, o que permite ajustes rápidos e fáceis para obter o máximo desempenho. Se você busca uma memória RAM confiável, de alto desempenho e com estilo personalizável, a Corsair Vengeance é a escolha perfeita para o seu sistema.",
                 price: "258.81",
-                imageUrlIds: [
-                    "52973707051_da5abeb443_w",
-                    "52974081980_fffcc19f07_w",
-                    "52974081990_fe5418c64e_w",
-                    "52974159693_f6262a44e9_w",
-                ],
+                amountOfImages: 4,
                 categoryIds: ["b3c719dc-18d6-4211-9a95-13b4110e4a3b"],
             },
         }),
@@ -61,14 +44,7 @@ const seedProducts = async () => {
                 description:
                     "O SSD Samsung 970 EVO Plus é uma unidade de estado sólido de alta performance, projetada para oferecer velocidades rápidas de leitura e gravação, além de capacidade de armazenamento generosa. Com uma capacidade de 1TB, você terá espaço de sobra para armazenar seus arquivos, jogos e aplicativos de forma rápida e eficiente. A tecnologia avançada de memória NAND 3D da Samsung garante desempenho excepcional e confiabilidade duradoura. Com velocidades de leitura sequencial de até 3.500 MB/s e velocidades de gravação sequencial de até 3.300 MB/s, o SSD 970 EVO Plus oferece tempos de carregamento e transferência de arquivos ultrarrápidos, tornando-o ideal para jogos, edição de vídeo e outras tarefas intensivas em dados. Além disso, o SSD é equipado com recursos avançados de gerenciamento de temperatura e proteção contra sobreaquecimento, garantindo que seu sistema funcione de forma estável mesmo sob cargas de trabalho pesadas. Se você busca desempenho excepcional, capacidade de armazenamento generosa e confiabilidade superior, o SSD Samsung 970 EVO Plus é a escolha perfeita para aprimorar seu sistema de armazenamento.",
                 price: "949.95",
-                imageUrlIds: [
-                    "52973849794_561e25b720_w",
-                    "52973849799_7e81c362e6_w",
-                    "52974159758_d2d46d2fe2_w",
-                    "52973111492_a2c15205fb_w",
-                    "52974082070_6f4e434bb7_w",
-                    "52974082075_6e8e29c74c_w",
-                ],
+                amountOfImages: 6,
                 categoryIds: [
                     "79d9cde8-93d5-4620-87b5-45cce15d80cb",
                     "f1344737-532d-44da-840c-1254d1fd99ca",
@@ -82,14 +58,7 @@ const seedProducts = async () => {
                 description:
                     "A Fonte de Alimentação Corsair RM750x é uma escolha confiável para alimentar o seu sistema de forma eficiente e segura. Com capacidade de 750W, ela oferece energia suficiente para alimentar componentes de alto desempenho, como processadores potentes, placas de vídeo avançadas e sistemas de armazenamento exigentes. A Corsair RM750x possui certificação 80 Plus Gold, o que significa que oferece eficiência energética excepcional, reduzindo o desperdício de energia e gerando menos calor. Além disso, a sua modularidade permite que você conecte apenas os cabos necessários, facilitando o gerenciamento de cabos e melhorando o fluxo de ar dentro do gabinete. Com componentes de alta qualidade e proteções avançadas contra sobretensão, sobrecorrente e curto-circuito, essa fonte de alimentação oferece confiabilidade e estabilidade para o seu sistema. Seja você um entusiasta de jogos, um criador de conteúdo ou um usuário exigente, a Fonte de Alimentação Corsair RM750x é uma escolha sólida para garantir a energia necessária para o seu PC funcionar de forma eficiente e segura.",
                 price: "1105.75",
-                imageUrlIds: [
-                    "52974159753_b26df375eb_w",
-                    "52973849834_bbbf13d3e5_w",
-                    "52973849844_ecc2caf2fc_w",
-                    "52974159813_4d4a65612c_w",
-                    "52973111567_b66502d5ce_w",
-                    "52973849909_c5e53c6f81_w",
-                ],
+                amountOfImages: 6,
                 categoryIds: ["4ab735ca-9d1f-4b5f-a9da-651e5880a9b6"],
             },
         }),
@@ -100,30 +69,8 @@ const seedProducts = async () => {
                 description:
                     "A Placa-Mãe Gigabyte Z590 AORUS PRO é uma placa-mãe de alta qualidade projetada para os entusiastas de PC que desejam construir um sistema de alto desempenho. Equipada com o chipset Intel Z590, essa placa-mãe oferece suporte para os processadores Intel Core de 11ª geração, proporcionando uma plataforma poderosa e versátil. Com slots PCIe 4.0, você pode aproveitar ao máximo as velocidades de transferência de dados de última geração e conectar placas de vídeo avançadas, SSDs NVMe rápidos e outros dispositivos de alta velocidade. A Z590 AORUS PRO também oferece suporte para memória DDR4 de alta velocidade, permitindo um desempenho excepcional em jogos e tarefas intensivas. Além disso, essa placa-mãe possui recursos avançados, como iluminação RGB personalizável, áudio de alta definição e várias opções de conectividade, incluindo USB 3.2 Gen2 e USB Type-C. Com a Placa-Mãe Gigabyte Z590 AORUS PRO, você pode montar um sistema poderoso e personalizado que atenda às suas necessidades de computação.",
                 price: "3380.59",
-                imageUrlIds: [
-                    "52973707196_3230ac5a95_w",
-                    "52974159843_e72eeff8fc_w",
-                    "52974082135_594fe4028e_w",
-                    "52973707221_28ea048598_w",
-                    "52974082140_bb57ef9be4_w",
-                ],
+                amountOfImages: 5,
                 categoryIds: ["52ede7e7-4b4a-4ad1-bfd0-a3947be6e50d"],
-            },
-        }),
-        prisma.products.create({
-            data: {
-                id: "5d919cc5-2cd6-4b2e-aa04-409f212d6390",
-                name: "RX 6700 XT",
-                description:
-                    "A Placa de Vídeo AMD Radeon RX 6700 XT é uma poderosa placa gráfica projetada para jogadores exigentes e criadores de conteúdo. Equipada com a arquitetura AMD RDNA 2, essa placa de vídeo oferece desempenho de alta qualidade, imagens nítidas e taxas de quadros suaves em jogos modernos. Com 12 GB de memória GDDR6 de alta velocidade e velocidades de clock avançadas, ela oferece um desempenho excepcional em resoluções 1440p e até mesmo em 4K. Além disso, a Radeon RX 6700 XT suporta recursos avançados, como ray tracing e AMD FidelityFX, proporcionando gráficos realistas e imersivos. Com conectividade aprimorada, você pode desfrutar de múltiplos monitores e experiências de jogo envolventes. Seja você um jogador apaixonado ou um criador de conteúdo em busca de desempenho gráfico de ponta, a Placa de Vídeo AMD Radeon RX 6700 XT é uma escolha excelente para impulsionar o seu sistema.",
-                price: "3380.59",
-                imageUrlIds: [
-                    "52974082155_c8a18b7d70",
-                    "52974159888_c57d76b7a0",
-                    "52973707256_04ec5a2806",
-                    "52973111607_2048599894",
-                ],
-                categoryIds: ["f5f513f6-4172-4a00-87a0-d03d8bae2fa2"],
             },
         }),
         prisma.products.create({
@@ -133,12 +80,7 @@ const seedProducts = async () => {
                 description:
                     "O Monitor ASUS ROG Swift PG279Q é um monitor de alta qualidade projetado para jogadores e profissionais que buscam uma experiência visual excepcional. Com um painel IPS de 27 polegadas e resolução WQHD (2560x1440), esse monitor oferece imagens nítidas, cores vibrantes e amplo ângulo de visão. Com uma taxa de atualização de 165Hz e tecnologia NVIDIA G-SYNC, você desfrutará de jogos suaves e livres de tearing. Além disso, o monitor possui recursos avançados, como HDR e suporte para ampla gama de cores, proporcionando uma qualidade de imagem impressionante. Com conectividade versátil, incluindo HDMI, DisplayPort e USB, você pode conectar facilmente seus dispositivos. O design elegante e ergonômico, com ajustes de inclinação, rotação e altura, oferece conforto e flexibilidade durante longas sessões de jogo ou trabalho. Seja para jogos imersivos ou trabalho profissional, o Monitor ASUS ROG Swift PG279Q é uma escolha premium para uma experiência visual excepcional.",
                 price: "4495.49",
-                imageUrlIds: [
-                    "52973111612_03fd81fdf9",
-                    "52973111617_7e015eb774",
-                    "52973111637_7c3e4e2216",
-                    "52973849994_756c7e3890",
-                ],
+                amountOfImages: 4,
                 categoryIds: ["dd94d285-3475-4252-92ca-2924f74eb56b"],
             },
         }),
@@ -149,14 +91,7 @@ const seedProducts = async () => {
                 description:
                     "O Teclado Mecânico Razer BlackWidow Elite é um teclado durável e responsivo projetado para jogadores e usuários exigentes. Equipado com switches mecânicos Razer, esse teclado oferece atuação rápida e precisa em cada pressionamento de tecla. Com retroiluminação RGB personalizável e efeitos de iluminação dinâmicos, você pode criar uma aparência única para o seu setup. O BlackWidow Elite também possui teclas programáveis e uma roda de controle multifuncional, proporcionando conveniência e acesso rápido a comandos e macros. Além disso, o teclado possui um apoio de pulso ergonômico magnético, oferecendo conforto durante longas sessões de digitação ou jogos. Com a qualidade de construção robusta da Razer, o Teclado Mecânico Razer BlackWidow Elite é uma escolha confiável para melhorar a sua produtividade e desempenho em jogos.",
                 price: "845.99",
-                imageUrlIds: [
-                    "52973111642_b27a06b28b_w",
-                    "52973850019_9e023b9e41_w",
-                    "52974082230_4faa6b0cf2",
-                    "52973850044_245f01d31e",
-                    "52973111682_8737564b4c",
-                    "52974082265_538028940c",
-                ],
+                amountOfImages: 6,
                 categoryIds: ["cb69fa22-6039-4615-a40a-e89d8e977346"],
             },
         }),
@@ -167,15 +102,7 @@ const seedProducts = async () => {
                 description:
                     "O Headset HyperX Cloud Alpha é um headset confortável e com qualidade de áudio excepcional para jogadores e entusiastas de música. Com drivers de 50mm personalizados, esse headset oferece som imersivo e preciso, permitindo que você ouça todos os detalhes dos jogos e músicas. O Cloud Alpha apresenta uma estrutura durável em alumínio, oferecendo resistência e conforto para uso prolongado. Além disso, as almofadas auriculares em espuma memory foam proporcionam isolamento acústico e conforto excepcionais. O headset também possui um microfone destacável com cancelamento de ruído, permitindo uma comunicação clara com seus companheiros de equipe. Com compatibilidade multiplataforma e cabo removível, o HyperX Cloud Alpha oferece flexibilidade para uso em PCs, consoles e dispositivos móveis. Seja para jogar, ouvir música ou realizar chamadas, o Headset HyperX Cloud Alpha proporciona uma experiência sonora de alta qualidade.",
                 price: "495.99",
-                imageUrlIds: [
-                    "52973111687_31c9ee4cb6_w",
-                    "52974082255_bbc0b70c1a_w",
-                    "52974159993_cd7fe5c670_w",
-                    "52974159978_dda84f31db_w",
-                    "52973707381_458554de4a_w",
-                    "52973850069_d301ae8e8c_w",
-                    "52974082310_70387a97f1_w",
-                ],
+                amountOfImages: 7,
                 categoryIds: ["37b99c6f-3e32-4a52-8b7e-3645aea86c39"],
             },
         }),
@@ -186,14 +113,7 @@ const seedProducts = async () => {
                 description:
                     "O Mouse Gamer Logitech G502 HERO é um mouse de alta precisão projetado para jogadores que buscam desempenho excepcional. Com um sensor óptico avançado HERO 25K, esse mouse oferece rastreamento preciso e sensibilidade ajustável de até 25.000 DPI, proporcionando movimentos suaves e precisos. Com 11 botões programáveis, você pode personalizar e atribuir comandos para um acesso rápido durante os jogos. Além disso, o G502 HERO possui um design ergonômico e ajustável, permitindo que você encontre a posição de uso mais confortável para longas sessões de jogo. Com iluminação RGB personalizável e perfis de configuração salvos na memória interna, você pode personalizar a aparência e as configurações do seu mouse. Seja para jogos de ação intensa ou trabalho exigente, o Mouse Gamer Logitech G502 HERO oferece desempenho e precisão superiores.",
                 price: "395.99",
-                imageUrlIds: [
-                    "52974082325_f2ba1179b1_z",
-                    "52973850079_6e81e43494",
-                    "52974082330_bb9e40bcc9_z",
-                    "52974082355_735bae22e7_z",
-                    "52974082375_065a6d06e1_w",
-                    "52973707421_40ecf9884e",
-                ],
+                amountOfImages: 6,
                 categoryIds: ["5cec0e14-4493-4199-a543-8e4045ddd086"],
             },
         }),
@@ -204,28 +124,18 @@ const seedProducts = async () => {
                 description:
                     "A Cadeira Gamer RAZER ISKUR X é uma cadeira ergonômica e confortável projetada para proporcionar suporte adequado durante longas sessões de jogos. Com um design esportivo e materiais de alta qualidade, essa cadeira oferece durabilidade e conforto excepcionais. O encosto ajustável e o apoio de cabeça almofadado proporcionam um suporte adequado para a coluna vertebral, ajudando a reduzir a fadiga e o desconforto. Além disso, os braços ajustáveis e retráteis permitem que você encontre a posição ideal para os seus braços e pulsos. A cadeira também possui rodas de alta resistência que deslizam suavemente em diferentes tipos de superfície. Seja para longas sessões de jogos ou trabalho prolongado, a Cadeira Gamer RAZER ISKUR X oferece conforto e estilo para aprimorar a sua experiência.",
                 price: "1699.90",
-                imageUrlIds: [
-                    "52973850109_6cd4a193f1_w",
-                    "52974082370_f4a02ef013_w",
-                    "52973850114_8c888aaa73_w",
-                    "52974082395_8cabb3acf5_w",
-                ],
+                amountOfImages: 4,
                 categoryIds: ["93d40b8d-2ddf-4f1d-9db2-7313ea3fb973"],
             },
         }),
         prisma.products.create({
             data: {
                 id: "29b1dbcd-d70a-4fa6-ac5c-1bd5209442a6",
-                name: "Caixa de Som Bluetooth JBL Charge 4",
+                name: "JBL Charge 4",
                 description:
                     "A Caixa de Som Bluetooth JBL Charge 4 é uma caixa de som portátil com som poderoso e bateria de longa duração. Com drivers de alta performance e radiadores passivos, essa caixa de som oferece graves profundos e som claro em ambientes internos e externos. Além disso, a Charge 4 possui conectividade Bluetooth, permitindo que você reproduza suas músicas sem fio a partir de dispositivos compatíveis. Com sua bateria de íons de lítio recarregável, a caixa de som oferece até 20 horas de reprodução contínua. A Charge 4 também possui classificação IPX7, sendo resistente à água, o que a torna perfeita para uso ao ar livre e em ambientes úmidos. Seja para festas, viagens ou momentos de lazer, a Caixa de Som Bluetooth JBL Charge 4 oferece um som imersivo e portabilidade conveniente.",
                 price: "745.99",
-                imageUrlIds: [
-                    "52973850144_3540992cb5",
-                    "52973850154_9e6755e12c",
-                    "52973707481_fc9980837d",
-                    "52973850179_e5f48839c4_n",
-                ],
+                amountOfImages: 4,
                 categoryIds: ["82383954-da5a-470a-998d-a33b27c3c80d"],
             },
         }),
@@ -236,12 +146,7 @@ const seedProducts = async () => {
                 description:
                     "O Processador AMD Ryzen 7 5800X é um poderoso processador de última geração projetado para oferecer alto desempenho em tarefas exigentes. Com 8 núcleos e 16 threads, esse processador oferece velocidades de clock rápidas e capacidade de processamento avançada. Com a arquitetura Zen 3 da AMD, o Ryzen 7 5800X oferece melhorias significativas no desempenho em relação às gerações anteriores. Além disso, o processador conta com tecnologia de desbloqueio de multiplicador, permitindo overclocking para obter ainda mais desempenho. Seja para jogos, edição de vídeo ou renderização 3D, o Processador AMD Ryzen 7 5800X oferece potência e eficiência para atender às demandas dos usuários mais exigentes.",
                 price: "2145.99",
-                imageUrlIds: [
-                    "52974160103_a7e9d4452f_w",
-                    "52974160138_4ac5d3c3bd",
-                    "52974082415_caab4a3d3b",
-                    "52974160143_545a9afc34_w",
-                ],
+                amountOfImages: 4,
                 categoryIds: ["bf565cbb-1f85-49c4-9292-ccff1d2bbe3e"],
             },
         }),
@@ -252,11 +157,7 @@ const seedProducts = async () => {
                 description:
                     "O Processador Intel Core i9-11900K é um processador de alta performance projetado para entregar desempenho excepcional em todas as tarefas. Com 8 núcleos e 16 threads, esse processador oferece velocidades de clock altas e capacidade de resposta rápida. Com a tecnologia Intel Turbo Boost Max 3.0, o i9-11900K aumenta automaticamente a frequência de clock para maximizar o desempenho em cargas de trabalho exigentes. Além disso, o processador possui suporte para memória Intel Optane, proporcionando maior capacidade de armazenamento e velocidades de acesso mais rápidas. Seja para jogos intensos, edição de vídeos em 4K ou criação de conteúdo, o Processador Intel Core i9-11900K oferece o máximo desempenho para os usuários mais exigentes.",
                 price: "2995.99",
-                imageUrlIds: [
-                    "52973111837_09e2ab7de2_n",
-                    "52974160148_bfb2eb5204_w",
-                    "52973111842_9b9accc113_n",
-                ],
+                amountOfImages: 3,
                 categoryIds: ["bf565cbb-1f85-49c4-9292-ccff1d2bbe3e"],
             },
         }),
@@ -267,11 +168,7 @@ const seedProducts = async () => {
                 description:
                     "O Processador AMD Ryzen 5 5600X é uma opção de alto desempenho para usuários que buscam uma combinação de potência e valor. Com 6 núcleos e 12 threads, esse processador oferece velocidades de clock rápidas e capacidade de multitarefa eficiente. Com a arquitetura Zen 3 da AMD, o Ryzen 5 5600X oferece melhorias significativas no desempenho e eficiência energética em relação às gerações anteriores. Além disso, o processador possui suporte para PCIe 4.0, proporcionando velocidades de transferência de dados mais rápidas para dispositivos compatíveis. Seja para jogos, streaming de conteúdo ou tarefas do dia a dia, o Processador AMD Ryzen 5 5600X oferece desempenho confiável e excelente custo-benefício.",
                 price: "1395.99",
-                imageUrlIds: [
-                    "52974082455_12863fee1a_w",
-                    "52974160168_ca966c4abe_w",
-                    "52973850224_84031babae",
-                ],
+                amountOfImages: 3,
                 categoryIds: ["bf565cbb-1f85-49c4-9292-ccff1d2bbe3e"],
             },
         }),
@@ -282,15 +179,18 @@ const seedProducts = async () => {
                 description:
                     "A Placa de Vídeo GIGABYTE RTX 3070 MASTER é uma poderosa placa de vídeo da geração Ampere projetada para oferecer desempenho excepcional em jogos e aplicações de renderização. Com 8 GB de memória GDDR6, essa placa de vídeo oferece imagens de alta qualidade e fluidez em resoluções de até 4K. Além disso, a GeForce RTX 3070 possui tecnologia Ray Tracing em tempo real, que proporciona efeitos visuais realistas e iluminação avançada nos jogos compatíveis. Com suporte a DLSS (Deep Learning Super Sampling), a placa de vídeo também melhora o desempenho e a qualidade gráfica. Seja para jogar os títulos mais recentes ou trabalhar com renderização de alta qualidade, a Placa de Vídeo NVIDIA GeForce RTX 3070 oferece o poder necessário para uma experiência imersiva.",
                 price: "4727.13",
-                imageUrlIds: [
-                    "52973707551_21818f71a2_w",
-                    "52973707556_b5dbeaea40_w",
-                    "52974160198_faf1059d4c_n",
-                    "52973111927_5f3e069f02_w",
-                    "52974082510_c96724e70f_n",
-                    "52973111932_1c52741b91_w",
-                    "52973707561_d35a172c4d_n",
-                ],
+                amountOfImages: 7,
+                categoryIds: ["f5f513f6-4172-4a00-87a0-d03d8bae2fa2"],
+            },
+        }),
+        prisma.products.create({
+            data: {
+                id: "5d919cc5-2cd6-4b2e-aa04-409f212d6390",
+                name: "Radeon RX 6750 XT",
+                description:
+                    "A Placa de Vídeo AMD Radeon RX 6750 XT é uma poderosa placa gráfica projetada para jogadores exigentes e criadores de conteúdo. Equipada com a arquitetura AMD RDNA 2, essa placa de vídeo oferece desempenho de alta qualidade, imagens nítidas e taxas de quadros suaves em jogos modernos. Com 12 GB de memória GDDR6 de alta velocidade e velocidades de clock avançadas, ela oferece um desempenho excepcional em resoluções 1440p e até mesmo em 4K. Além disso, a Radeon RX 6750 XT suporta recursos avançados, como ray tracing e AMD FidelityFX, proporcionando gráficos realistas e imersivos. Com conectividade aprimorada, você pode desfrutar de múltiplos monitores e experiências de jogo envolventes. Seja você um jogador apaixonado ou um criador de conteúdo em busca de desempenho gráfico de ponta, a Placa de Vídeo AMD Radeon RX 6750 XT é uma escolha excelente para impulsionar o seu sistema.",
+                price: "3380.59",
+                amountOfImages: 4,
                 categoryIds: ["f5f513f6-4172-4a00-87a0-d03d8bae2fa2"],
             },
         }),
@@ -301,13 +201,7 @@ const seedProducts = async () => {
                 description:
                     "A Placa de Vídeo AMD Radeon RX 6700 XT é uma placa de vídeo de alta performance projetada para oferecer jogabilidade suave e gráficos impressionantes. Com 12 GB de memória GDDR6, essa placa de vídeo oferece desempenho excepcional em resoluções 1440p e suporte para jogos em 4K. Com a arquitetura RDNA 2 da AMD, a Radeon RX 6700 XT proporciona altas taxas de quadros e recursos avançados, como sombreamento de taxa variável e redução de latência AMD Radeon Anti-Lag. Além disso, a placa de vídeo oferece suporte a tecnologia AMD Smart Access Memory para melhorar o desempenho em jogos quando combinada com processadores AMD Ryzen compatíveis. Seja para jogar os últimos lançamentos ou criar conteúdo em alta resolução, a Placa de Vídeo AMD Radeon RX 6700 XT oferece uma experiência imersiva e envolvente.",
                 price: "2745.99",
-                imageUrlIds: [
-                    "52973850274_b7e995252f_w",
-                    "52974160238_4e0baf4468_w",
-                    "52973111947_b1c2888a67_w",
-                    "52973111952_936b999f70_w",
-                    "52974082560_f03c62305b_w",
-                ],
+                amountOfImages: 5,
                 categoryIds: ["f5f513f6-4172-4a00-87a0-d03d8bae2fa2"],
             },
         }),
@@ -318,31 +212,18 @@ const seedProducts = async () => {
                 description:
                     "A Placa de Vídeo NVIDIA GeForce GTX 1660 Super é uma placa de vídeo de médio porte projetada para oferecer bom desempenho em jogos e aplicações gráficas. Com 6 GB de memória GDDR6, essa placa de vídeo oferece ótima qualidade gráfica em resoluções 1080p e suporte para jogos em 1440p. Com a arquitetura Turing da NVIDIA, a GeForce GTX 1660 Super oferece tecnologias avançadas, como sombreamento adaptável e suporte a G-SYNC, para proporcionar uma experiência de jogo suave e sem rasgos de tela. Seja para jogar os títulos populares ou realizar tarefas de edição de vídeo, a Placa de Vídeo NVIDIA GeForce GTX 1660 Super oferece um bom equilíbrio entre desempenho e custo-benefício.",
                 price: "1245.99",
-                imageUrlIds: [
-                    "52973850274_b7e995252f_w",
-                    "52974160333_56ae9f75a7_b",
-                    "52973850384_85aecac5e0_b",
-                    "52973850379_7807b0e60a_b",
-                    "52973112087_23abc29537_b",
-                    "52973707741_1866389b04_b",
-                ],
+                amountOfImages: 6,
                 categoryIds: ["f5f513f6-4172-4a00-87a0-d03d8bae2fa2"],
             },
         }),
         prisma.products.create({
             data: {
                 id: "e37865ec-bdbf-4439-9a62-7046a9a8edd4",
-                name: "RTX 4090 Gigabyte Aorus Xtreme Waterforce",
+                name: "RTX 4090 Aorus Xtreme Waterforce",
                 description:
-                    "A RTX 4090 Gigabyte Aorus Xtreme Waterforce é uma placa de vídeo avançada e poderosa, projetada para jogos intensivos. Com refrigeração líquida integrada, oferece desempenho estável e silencioso. Suporta Ray Tracing, DLSS e possui grande capacidade de memória de vídeo. Com recursos de overclocking e software de controle fácil de usar, é uma escolha impressionante para entusiastas de PC que desejam gráficos incríveis e desempenho excepcional.",
+                    "A RTX 4090 Aorus Xtreme Waterforce é uma placa de vídeo avançada e poderosa, projetada para jogos intensivos. Com refrigeração líquida integrada, oferece desempenho estável e silencioso. Suporta Ray Tracing, DLSS e possui grande capacidade de memória de vídeo. Com recursos de overclocking e software de controle fácil de usar, é uma escolha impressionante para entusiastas de PC que desejam gráficos incríveis e desempenho excepcional.",
                 price: "20009.99",
-                imageUrlIds: [
-                    "52974390510_1f78de1cf3",
-                    "52974470353_85cb749ed3_w",
-                    "52974161639_07b8381c60_w",
-                    "52973421892_2ca7691745_w",
-                    "52974390515_421b44c2c4_w",
-                ],
+                amountOfImages: 5,
                 categoryIds: ["f5f513f6-4172-4a00-87a0-d03d8bae2fa2"],
             },
         }),
@@ -353,15 +234,7 @@ const seedProducts = async () => {
                 description:
                     "A Placa gráfica Gigabyte Aorus Geforce RTX 4090 Master é uma potente placa de vídeo projetada para gamers e criadores de conteúdo. Com tecnologia avançada, como Ray Tracing em tempo real e ampla capacidade de memória, ela oferece gráficos incríveis e alto desempenho. Com um sistema de resfriamento eficiente e recursos adicionais, é a escolha ideal para uma experiência de jogo e criação de conteúdo excepcionais.",
                 price: "18016.13",
-                imageUrlIds: [
-                    "52974161569_cac43d50cd_w",
-                    "52974470273_4d6dd813b8_w",
-                    "52974016816_641004206f_w",
-                    "52974016821_8d756e961d",
-                    "52974470303_51f8aa2ae3_w",
-                    "52973421847_2076229403_w",
-                    "52974470343_8d0c1c3d46_n",
-                ],
+                amountOfImages: 7,
                 categoryIds: ["f5f513f6-4172-4a00-87a0-d03d8bae2fa2"],
             },
         }),
@@ -372,14 +245,7 @@ const seedProducts = async () => {
                 description:
                     "O Water Cooler Corsair H60 Hydro Series é um sistema de refrigeração líquida eficiente para processadores. Com um design compacto e fácil de instalar, ele mantém o processador resfriado durante tarefas exigentes, oferecendo desempenho térmico superior. Com operação silenciosa e capacidade de overclock seguro, é uma excelente opção para manter seu PC fresco e estável.",
                 price: "423.52",
-                imageUrlIds: [
-                    "52974161499_e9e4b98fa9_w",
-                    "52974016776_abaeefe7fa_w",
-                    "52974016786_190d7c0491_w",
-                    "52974470213_87372fc98b_w",
-                    "52974390445_01e174a065_w",
-                    "52974390465_59c9079e71_w",
-                ],
+                amountOfImages: 6,
                 categoryIds: ["68bca881-43f2-456d-979e-1892d00f54e1"],
             },
         }),
@@ -390,15 +256,7 @@ const seedProducts = async () => {
                 description:
                     "A Fonte Asus ROG THOR conta com um sistema de resfriamento avançado, que mantém a temperatura interna da fonte controlada mesmo em condições de uso intensivo. Sua construção robusta e componentes de alta qualidade garantem uma durabilidade excepcional, oferecendo uma fonte de alimentação confiável a longo prazo. Com certificação 80 Plus Platinum, proporciona eficiência energética excepcional e reduz o desperdício de energia, resultando em menor impacto ambiental e economia de custos de energia.",
                 price: "3529.40",
-                imageUrlIds: [
-                    "52974470128_8771b1107b_w",
-                    "52973421682_b3d8602a33_w",
-                    "52973421727_7f8890247d_w",
-                    "52974161474_06a4581615_w",
-                    "52974390360_07eb7693e2_w",
-                    "52974470188_44dab99883_w",
-                    "52974161489_e4b7d7cf31_w",
-                ],
+                amountOfImages: 7,
                 categoryIds: ["68bca881-43f2-456d-979e-1892d00f54e1"],
             },
         }),
@@ -409,30 +267,18 @@ const seedProducts = async () => {
                 description:
                     "O Gabinete Cooler Master H500P Mesh é ideal para entusiastas que buscam um gabinete de alto desempenho e design arrojado. Com sua estrutura robusta e malha de ventilação, mantém os componentes internos resfriados de forma eficiente. É compatível com placas-mãe ATX e oferece várias opções de armazenamento. Possui tampa frontal removível para facilitar a limpeza e manutenção. Com amplo espaço para gerenciamento de cabos e pontos de montagem inteligentes, permite uma montagem organizada. Oferece suporte para iluminação RGB personalizável e possui um visual estético profissional. O H500P Mesh é a escolha perfeita para criar um sistema poderoso e estiloso.",
                 price: "1449.99",
-                imageUrlIds: [
-                    "52974390235_ce79e3d094_w",
-                    "52974161384_10562a0e08_n",
-                    "52973421662_e45a5da305_w",
-                    "52973421667_ab69ee4933_w",
-                    "52974161409_a295576c4b_w",
-                    "",
-                ],
+                amountOfImages: 5,
                 categoryIds: ["68bca881-43f2-456d-979e-1892d00f54e1"],
             },
         }),
         prisma.products.create({
             data: {
                 id: "78bd925e-f9dd-4ef4-b4f9-b7fc91788d1b",
-                name: "SSD Kingston A2000 NVMe",
+                name: "SSD Kingston A2000",
                 description:
-                    "O SSD Kingston A2000 NVMe é uma solução de armazenamento de alta velocidade que oferece desempenho excepcional para o seu PC. Com capacidade de 500GB, esse SSD utiliza a interface NVMe PCIe Gen 3.0 x4 para proporcionar velocidades de leitura e gravação ultrarrápidas. Além disso, o A2000 é compatível com o protocolo NVMe 1.3 e possui tecnologia de cache SLC para melhorar a eficiência e a durabilidade. Com o suporte para o software de gerenciamento de SSD da Kingston, você pode monitorar e otimizar o desempenho do seu SSD. Seja para jogos, edição de vídeo ou transferência de arquivos pesados, o SSD Kingston A2000 NVMe oferece desempenho confiável e capacidade de resposta rápida para suas necessidades de armazenamento.",
+                    "O SSD Kingston A2000 é uma solução de armazenamento de alta velocidade que oferece desempenho excepcional para o seu PC. Com capacidade de 500GB, esse SSD utiliza a interface NVMe PCIe Gen 3.0 x4 para proporcionar velocidades de leitura e gravação ultrarrápidas. Além disso, o A2000 é compatível com o protocolo NVMe 1.3 e possui tecnologia de cache SLC para melhorar a eficiência e a durabilidade. Com o suporte para o software de gerenciamento de SSD da Kingston, você pode monitorar e otimizar o desempenho do seu SSD. Seja para jogos, edição de vídeo ou transferência de arquivos pesados, o SSD Kingston A2000 oferece desempenho confiável e capacidade de resposta rápida para suas necessidades de armazenamento.",
                 price: "445.99",
-                imageUrlIds: [
-                    "52974082635_45368527f4",
-                    "52974160423_3b70daa04b_z",
-                    "52974160438_13bb0c548b_z",
-                    "52974160433_c795a27f9a_z",
-                ],
+                amountOfImages: 4,
                 categoryIds: [
                     "79d9cde8-93d5-4620-87b5-45cce15d80cb",
                     "f1344737-532d-44da-840c-1254d1fd99ca",
@@ -446,45 +292,29 @@ const seedProducts = async () => {
                 description:
                     "Aumente o desempenho do seu computador gamer com a Memória DDR4 XPG Spectrix D50. Projetada especialmente para jogos intensivos, esta memória RAM oferece velocidades de transferência rápidas e capacidade excepcional para garantir uma experiência de jogo suave e sem interrupções. Compatível com as principais placas-mãe e fácil de instalar, a Memória DDR4 XPG Spectrix D50 é a escolha perfeita para turbinar o seu setup gamer.",
                 price: "399.90",
-                imageUrlIds: [
-                    "52973112127_07188fb6f7_c",
-                    "52973707806_49ae44d773_b",
-                    "52974082695_40e02e4671_z",
-                    "52973707816_fc69e432ca_n",
-                    "52974082720_8e49a6133b_w",
-                ],
+                amountOfImages: 5,
                 categoryIds: ["b3c719dc-18d6-4211-9a95-13b4110e4a3b"],
             },
         }),
         prisma.products.create({
             data: {
                 id: "c49c2492-8348-4a7c-be29-8ae29e77ae71",
-                name: "Memória RAM HyperX Fury",
+                name: "Memória HyperX Fury",
                 description:
                     "Eleve o seu desempenho gamer com a Memória RAM HyperX Fury. Com velocidades impressionantes e capacidade generosa, esta memória RAM oferece tempos de carregamento rápidos e multitarefa eficiente. Projetada para overclocking fácil, a HyperX Fury garante uma experiência de jogo fluida e responsiva. Adicione potência ao seu setup gamer com esta memória RAM de alto desempenho.",
                 price: "249.99",
-                imageUrlIds: [
-                    "52974290808_449bd79c03_w",
-                    "52974211345_ca3b73e256_w",
-                    "52973981769_2db63f1b36_w",
-                    "52973837126_334196d133_w",
-                ],
+                amountOfImages: 4,
                 categoryIds: ["b3c719dc-18d6-4211-9a95-13b4110e4a3b"],
             },
         }),
         prisma.products.create({
             data: {
                 id: "b17e220f-e6f7-4005-aeb9-193ab8ceb254",
-                name: "Memória DDR4 G.Skill Trident Z Royal",
+                name: "Memória G.Skill Trident",
                 description:
-                    "Entre no mundo da iluminação personalizada com a Memória DDR4 G.Skill Trident Z Royal. Com uma combinação perfeita de estilo e desempenho, esta memória RAM possui um incrível sistema de iluminação RGB que pode ser sincronizado com outros dispositivos compatíveis. Além disso, oferece velocidades extremas e capacidade avançada para garantir a máxima performance em jogos exigentes. Com a G.Skill Trident Z Royal, você terá um visual impressionante e um desempenho excepcional para tornar o seu PC gamer ainda mais incrível.",
+                    "Entre no mundo da iluminação personalizada com a Memória DDR4 G.Skill Trident. Com uma combinação perfeita de estilo e desempenho, esta memória RAM possui um incrível sistema de iluminação RGB que pode ser sincronizado com outros dispositivos compatíveis. Além disso, oferece velocidades extremas e capacidade avançada para garantir a máxima performance em jogos exigentes. Com a G.Skill Trident, você terá um visual impressionante e um desempenho excepcional para tornar o seu PC gamer ainda mais incrível.",
                 price: "1359.90",
-                imageUrlIds: [
-                    "52973112147_9c4dff7579_c",
-                    "52973112162_32d2816400_z",
-                    "52973707856_c243f9a40a",
-                    "52974160488_865ddfe855_z",
-                ],
+                amountOfImages: 4,
                 categoryIds: ["b3c719dc-18d6-4211-9a95-13b4110e4a3b"],
             },
         }),
@@ -495,12 +325,7 @@ const seedProducts = async () => {
                 description:
                     "Obtenha um espaço de armazenamento confiável e de alta capacidade com o HD Seagate Barracuda. Com uma velocidade de rotação de 7200 RPM e interface SATA de última geração, este HD oferece transferências rápidas de dados e é ideal para jogos, armazenamento de mídia e aplicativos de produtividade. Aproveite a confiabilidade e o desempenho duradouro do HD Seagate Barracuda para suprir todas as suas necessidades de armazenamento.",
                 price: "349.99",
-                imageUrlIds: [
-                    "52973112207_b86e3ca4b8_z",
-                    "52973707886_87f5e47489",
-                    "52973850474_7466f13368_z",
-                    "52973850469_70148d8329",
-                ],
+                amountOfImages: 4,
                 categoryIds: [
                     "79d9cde8-93d5-4620-87b5-45cce15d80cb",
                     "6b28a626-36aa-46aa-8e00-9751e0540e89",
@@ -514,11 +339,7 @@ const seedProducts = async () => {
                 description:
                     "Desfrute de uma solução de armazenamento confiável com o HD Western Digital Blue. Com uma ampla capacidade de armazenamento e uma interface SATA de alta velocidade, este HD oferece desempenho e durabilidade excepcionais. Projetado para atender às necessidades de armazenamento de dados de jogos, vídeos e aplicativos, o HD Western Digital Blue é a escolha perfeita para usuários que buscam uma solução de armazenamento econômica e confiável.",
                 price: "199.99",
-                imageUrlIds: [
-                    "52974082770_55ba9bd297_n",
-                    "52973112252_09657e7522",
-                    "52974082785_92c934d4ae",
-                ],
+                amountOfImages: 3,
                 categoryIds: [
                     "79d9cde8-93d5-4620-87b5-45cce15d80cb",
                     "6b28a626-36aa-46aa-8e00-9751e0540e89",
@@ -532,11 +353,7 @@ const seedProducts = async () => {
                 description:
                     "Eleve o desempenho do seu sistema com o SSD Crucial MX500. Com velocidades de leitura e gravação impressionantes, este SSD oferece tempos de inicialização rápidos e transferências de dados eficientes. Além disso, sua tecnologia de proteção de dados avançada garante a segurança e integridade dos seus arquivos. Aproveite a confiabilidade e a capacidade generosa do SSD Crucial MX500 para melhorar a velocidade e a capacidade de resposta do seu PC.",
                 price: "299.99",
-                imageUrlIds: [
-                    "52974160558_574cc15981_z",
-                    "52973850509_ffe48173eb_m",
-                    "52973707971_4c580f06b7_w",
-                ],
+                amountOfImages: 3,
                 categoryIds: [
                     "79d9cde8-93d5-4620-87b5-45cce15d80cb",
                     "f1344737-532d-44da-840c-1254d1fd99ca",

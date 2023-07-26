@@ -49,7 +49,7 @@ const productRoutes = async (server: FastifyInstance) => {
                 skip,
                 where: {
                     categoryIds: {
-                        equals: id,
+                        hasSome: [id],
                     },
                 },
             });
@@ -102,11 +102,17 @@ const productRoutes = async (server: FastifyInstance) => {
     server.get("/products-by-category-ids/amount", async (request, reply) => {
         const createProductsByCategoryIdsAmountParams = z.object({
             productId: z.string().uuid(),
-            categoryIds: z.string(),
+            categoryIds: z.string().transform((value) => {
+                return value.split(",");
+            }),
         });
 
         const { productId, categoryIds } =
             createProductsByCategoryIdsAmountParams.parse(request.query);
+
+        if (categoryIds.length === 0) {
+            return reply.status(200).send("No similar product.");
+        }
 
         try {
             const amount = await prisma.products.count({
@@ -138,11 +144,17 @@ const productRoutes = async (server: FastifyInstance) => {
 
         const createProductsByCategoryIdsParams = z.object({
             productId: z.string().uuid(),
-            categoryIds: z.string(),
+            categoryIds: z.string().transform((value) => {
+                return value.split(",");
+            }),
         });
 
         const { productId, categoryIds } =
             createProductsByCategoryIdsParams.parse(request.query);
+
+        if (categoryIds.length === 0) {
+            return reply.status(200).send("No similar product.");
+        }
 
         try {
             const products = await prisma.products.findMany({

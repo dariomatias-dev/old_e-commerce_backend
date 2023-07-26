@@ -73,7 +73,6 @@ CREATE TABLE "NewsletterSubscribers" (
 CREATE TABLE "category" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "imageUrlId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -85,7 +84,7 @@ CREATE TABLE "product" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "imageUrlIds" TEXT[],
+    "amountOfImages" INTEGER NOT NULL,
     "price" TEXT NOT NULL,
     "categoryIds" TEXT[],
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -150,13 +149,7 @@ CREATE UNIQUE INDEX "legalPersonUser_phone_key" ON "legalPersonUser"("phone");
 CREATE UNIQUE INDEX "category_name_key" ON "category"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "category_imageUrlId_key" ON "category"("imageUrlId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "product_name_key" ON "product"("name");
-
--- CreateIndex
-CREATE UNIQUE INDEX "product_imageUrlIds_key" ON "product"("imageUrlIds");
 
 -- AddForeignKey
 ALTER TABLE "orderItem" ADD CONSTRAINT "orderItem_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "order"("id") ON DELETE CASCADE ON UPDATE CASCADE;
