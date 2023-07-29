@@ -97,9 +97,11 @@ const productRoutes = async (server: FastifyInstance) => {
 
         const createProductsByIdsQuery = z.object({
             productIds: z.string(),
+            returnAllProducts: z.string().default("false"),
         });
 
-        const { productIds } = createProductsByIdsQuery.parse(request.query);
+        const { productIds, returnAllProducts } =
+            createProductsByIdsQuery.parse(request.query);
 
         const selectedProductIds = productIds.split(",");
 
@@ -118,6 +120,10 @@ const productRoutes = async (server: FastifyInstance) => {
                     },
                 },
             });
+
+            if (returnAllProducts === "true") {
+                return formattedProducts(products);
+            }
 
             products = products.slice(skip, skip + take);
 
