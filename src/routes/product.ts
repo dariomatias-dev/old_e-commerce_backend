@@ -1,5 +1,4 @@
 import { FastifyInstance } from "fastify";
-import { Products } from "@prisma/client";
 import * as z from "zod";
 
 import prisma from "../lib/prisma";
@@ -63,6 +62,35 @@ const productRoutes = async (server: FastifyInstance) => {
         }
     });
 
+    // Counts the total number of products
+    server.get("/products-by-ids/amount", async (request, reply) => {
+        const createProductsByIdsQuery = z.object({
+            productIds: z.string(),
+        });
+
+        const { productIds } = createProductsByIdsQuery.parse(request.query);
+
+        const selectedProductIds = productIds.split(",");
+
+        if (selectedProductIds.length === 0) {
+            return 0;
+        }
+
+        try {
+            const productsAmount = await prisma.products.count({
+                where: {
+                    id: {
+                        in: selectedProductIds,
+                    },
+                },
+            });
+
+            return productsAmount;
+        } catch (err) {
+            return reply.status(500).send(err);
+        }
+    });
+
     // Search for products that have any of the submitted IDs
     server.get("/products-by-ids", async (request, reply) => {
         const { skip, take } = getQueries(request);
@@ -72,22 +100,26 @@ const productRoutes = async (server: FastifyInstance) => {
         });
 
         const { productIds } = createProductsByIdsQuery.parse(request.query);
-        const selectedProductIds = productIds
-            .split(",")
-            .slice(skip, skip + take);
 
-        const products: Products[] = [];
+        const selectedProductIds = productIds.split(",");
+
+        if (selectedProductIds.length === 0) {
+            return {
+                products: [],
+                ...setSkipAndTake(skip, take),
+            };
+        }
 
         try {
-            for (let productId of selectedProductIds) {
-                const product = await prisma.products.findUnique({
-                    where: {
-                        id: productId,
+            let products = await prisma.products.findMany({
+                where: {
+                    id: {
+                        in: selectedProductIds,
                     },
-                });
+                },
+            });
 
-                products.push(product as Products);
-            }
+            products = products.slice(skip, skip + take);
 
             return {
                 products: formattedProducts(products),
@@ -144,16 +176,14 @@ const productRoutes = async (server: FastifyInstance) => {
 
         const createProductsByCategoryIdsParams = z.object({
             productId: z.string().uuid(),
-            categoryIds: z.string().transform((value) => {
-                return value.split(",");
-            }),
+            categoryIds: z.string(),
         });
 
         const { productId, categoryIds } =
             createProductsByCategoryIdsParams.parse(request.query);
 
-        if (categoryIds.length === 0) {
-            return reply.status(200).send("No similar product.");
+        if (categoryIds.split(",").length === 0) {
+            return reply.status(200).send("No similar product");
         }
 
         try {
@@ -164,7 +194,7 @@ const productRoutes = async (server: FastifyInstance) => {
                     AND: [
                         {
                             categoryIds: {
-                                hasSome: categoryIds,
+                                hasSome: categoryIds.split(","),
                             },
                         },
                         {

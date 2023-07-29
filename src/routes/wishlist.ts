@@ -6,6 +6,21 @@ import productIdsSchema from "../schemas/product_ids_schema";
 import userIdParamSchema from "../schemas/user_id_param_schema";
 
 const wishlistRoutes = async (server: FastifyInstance) => {
+    // Counts the total number of products
+    server.get("/wishlist/:userId/amount", async (request, reply) => {
+        const userId = userIdParamSchema.parse(request.params);
+
+        try {
+            const productsAmount = await prisma.wishlists.count({
+                where: userId,
+            });
+
+            return productsAmount;
+        } catch (err) {
+            return reply.status(500).send(err);
+        }
+    });
+
     // Search all wishlist product IDs
     server.get("/wishlist/:userId", async (request, reply) => {
         const userId = userIdParamSchema.parse(request.params);
